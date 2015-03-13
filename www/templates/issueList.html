@@ -1,10 +1,16 @@
 <ion-view view-title="Issue List">
   <ion-nav-buttons side="secondary">
     <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
+
+
   </ion-nav-buttons>
   <ion-content>
-<ion-list ng-controller="MyCtrl">
-  <ion-item ng-repeat="item in items">
+<ion-list ng-controller="ListCtrl" show-delete="shouldShowDelete">
+
+  
+
+  <ion-item ng-repeat="item in items" class="item-thumbnail-left">
+  <ion-delete-button class="ion-minus-circled"></ion-delete-button>
     Hello, {{item}}!
   </ion-item>
 

@@ -4,7 +4,7 @@
   "proxies": [
     {
       "path": "/api-proxy",
-      "proxyUrl": "http://pure-gorge-1661.herokuapp.com/api"
+      "proxyUrl": "https://tranquil-headland-6881.herokuapp.com/api"
     }
   ]
 }
