@@ -1,10 +1,19 @@
 angular.module('citizen-engagement.issueList', [])
 
+
 .controller('ListCtrl', function($scope ,IssueService) {
 
 
-$scope.items = IssueService.getIssue();
 
+var callback = function(error, issues){
+	if (error) {
+		 $scope.error = error;
+	} else {
+		$scope.items = issues;
+	}
+};
+
+IssueService.getIssues(callback);
 
 
 // $scope.items = [
@@ -26,19 +35,20 @@ $scope.items = IssueService.getIssue();
 
 })
 
-.factory("IssueService", function($http, apiUrl) {
-var issues = [];
 
-	return {
-		getIssue: function(){
-			return $http.get(apiUrl+"/issues").then(function(response){
-				issues = response;
-				
-				return issues;
+.factory("IssueService", function($http, apiUrl) {
+return {	
+		getIssues: function(callback){
+			 $http.get(apiUrl+"/issues").success(function(data){
+				issues = data;
+								
+				callback(null, issues);
+			}).error(function(error) {
+				callback(error);
 			});
 		}
-	}
-
+	
+}
 
 })
 

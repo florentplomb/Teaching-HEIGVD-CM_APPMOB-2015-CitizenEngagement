@@ -11,7 +11,8 @@
 
   <ion-item ng-repeat="item in items" class="item-thumbnail-left">
   <ion-delete-button class="ion-minus-circled"></ion-delete-button>
-    Hello, {{item}}!
+  <img ng-src="{{item.imageUrl}}">
+     {{item}}
   </ion-item>
 
 </ion-list>
