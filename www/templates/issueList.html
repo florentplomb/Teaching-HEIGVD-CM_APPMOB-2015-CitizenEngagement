@@ -3,6 +3,13 @@
     <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
   </ion-nav-buttons>
   <ion-content>
-    <p>Hello! This is the issue list screen.</p>
+<ion-list ng-controller="MyCtrl">
+  <ion-item ng-repeat="item in items">
+    Hello, {{item}}!
+  </ion-item>
+
+</ion-list>
+
   </ion-content>
 </ion-view>
+
