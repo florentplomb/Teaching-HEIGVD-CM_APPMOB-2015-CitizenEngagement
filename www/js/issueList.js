@@ -16,24 +16,24 @@ var callback = function(error, issues){
 IssueService.getIssues(callback);
 
 
-// $scope.items = [
-//     { id: 0 },
-//     { id: 1 },
-//     { id: 2 },
-//     { id: 3 },
-//     { id: 4 },
-//     { id: 5 },
-//     { id: 6 }
-//     ]
+
+ $scope.data = {
+    showDelete: false
+  };
 
   
-  $scope.onItemDelete = function(item) {
-    $scope.items.splice($scope.items.indexOf(item), 1);
+  $scope.onItemDelete = function(issue) {
+    $scope.issues.splice($scope.items.indexOf(item), 1);
   };
-  
 
 
 })
+
+
+
+
+
+
 
 
 .factory("IssueService", function($http, apiUrl) {
