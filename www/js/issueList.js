@@ -1,7 +1,7 @@
-angular.module('citizen-engagement.issueList', [])
+var list = angular.module('citizen-engagement.issueList', [])
 
 
-.controller('ListCtrl', function($scope ,IssueService) {
+list.controller('ListCtrl', function($scope ,IssueService) {
 
 
 
@@ -27,16 +27,13 @@ IssueService.getIssues(callback);
   };
 
 
-})
+});
 
 
 
 
 
-
-
-
-.factory("IssueService", function($http, apiUrl) {
+list.factory("IssueService", function($http, apiUrl) {
 return {	
 		getIssues: function(callback){
 			 $http.get(apiUrl+"/issues").success(function(data){
@@ -50,5 +47,5 @@ return {
 	
 }
 
-})
+});
 
