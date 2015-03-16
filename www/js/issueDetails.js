@@ -1,34 +1,28 @@
 
-var detailApp = angular.module('citizen-engagement.issueDetails',[])
+ var detailApp = angular.module('citizen-engagement.issueDetails',[])
 
 
 
-detailApp.controller('DetailCtrl',function($scope,$stateParams,IssueService){
+
+detailApp.controller('DetailCtrl',function($scope,$stateParams,IssueByIdService){
+
+var issueId = $stateParams.issueId;
 
 
-
-var issueId = $stateParams;
-
-
-
-var callback = function(error, issue){
+var callback = function(error, issues){
 	if (error) {
 		 $scope.error = error;
 	} else {
 
-		$scope.issues = issue;
-		console.log(issue);
+		$scope.issues = issues;
+		console.log(issues);
 	}
 };
-
-IssueService.getIssue(callback,issueId);
-
-
+IssueByIdService.getIssue(callback,issueId);
 
 });
 
-
-detailApp.factory("IssueService", function($http, apiUrl) {
+detailApp.factory("IssueByIdService", function($http, apiUrl) {
 return {	
 		getIssue: function(callback,issueId){
 			 $http.get(apiUrl+"/issues/"+issueId).success(function(data){
@@ -45,3 +39,4 @@ return {
 
 
 
+1
