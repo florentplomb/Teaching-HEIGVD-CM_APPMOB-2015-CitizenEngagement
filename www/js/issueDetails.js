@@ -2,20 +2,41 @@
 var detailApp = angular.module('citizen-engagement.issueDetails',[]);
 
 
-detailApp.controller ('DetailCtrl',function($scope,$stateParams){
+detailApp.controller('DetailCtrl',function($scope,$stateParams,IssueService){
+
+var issueId = $stateParams;
 
 
-console.log("ho"+$stateParams);
+var callback = function(error, issue){
+	if (error) {
+		 $scope.error = error;
+	} else {
 
-var test = $stateParams;
+		$scope.issues = issue;
+		console.log(issue);
+	}
+};
 
-console.log(test);
+IssueService.getIssue(callback,issueId);
 
 
 });
 
 
-  
+detailApp.factory("IssueService", function($http, apiUrl) {
+return {	
+		getIssue: function(callback,issueId){
+			 $http.get(apiUrl+"/issues/"+issueId).success(function(data){
+				issue = data;
+								
+				callback(null, issue);
+			}).error(function(error) {
+				callback(error);
+			});
+		}
+	
+}
+});
 
 
 
