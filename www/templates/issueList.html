@@ -2,15 +2,11 @@
 
   <ion-nav-buttons side="primary">
 
-
-
-
-
   </ion-nav-buttons>
 
   <ion-nav-buttons side="secondary">
 
-    <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">{{filter.type}}</button>
+    <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log out</button>
 
   </ion-nav-buttons>
 
@@ -19,24 +15,29 @@
 
 
   <div>
-    <span> Filtre by type : </span>
-      <select ng-model="filter.type">    
+
+    <button ng-click="toggleCustom()">Filtre</button>
+     
+  <select ng-hide="custom" ng-model="filter.type">    
         <option  ng-repeat="type in issueTypes" value="{{type.id}}">{{type.name}}</option>
     </select>
+       
+
+ 
 
   </div>
 <ion-list>
 
 
 
-  <ion-item ng-click="hello" ng-repeat="item in items" ng-show="item.issueType.id == filter.type && 1==1"   class="item-thumbnail-left">
+  <ion-item ng-click="goToIssueDetails(issue)" ng-repeat="issue in issues" ng-show="issue.issueType.id == filter.type || custom == true"   class="item-thumbnail-left">
 
-  <img ng-src="{{item.imageUrl}}">
+  <img ng-src="{{issue.imageUrl}}">
 
     
-     <h3>{{item.description}}</h3>
+     <h3>{{issue.description}}</h3>
 
-    <p> {{item.state}}</p>
+    <p> {{issue.state}}</p>
   </ion-item>
 
 </ion-list>

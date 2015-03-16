@@ -1,7 +1,15 @@
 var list = angular.module('citizen-engagement.issueList', [])
 
 
-list.controller('ListCtrl', function($scope ,IssueService,IssueTypeService) {
+list.controller('ListCtrl', function($scope ,IssueService,IssueTypeService,$state) {
+
+
+$scope.goToIssueDetails = function(issue) {
+$state.go("tab.issueDetails", { issueId: issue.id });
+};
+
+
+
 
 $scope.filter = {};
 
@@ -10,7 +18,7 @@ var callback = function(error, issues){
 		 $scope.error = error;
 	} else {
 
-		$scope.items = issues;
+		$scope.issues = issues;
 	}
 };
 
@@ -30,7 +38,9 @@ IssueTypeService.getIssuesType(function(error, issuesTypes){
 	}
 });
 
-
+        $scope.custom = true;
+        $scope.toggleCustom = function() {
+        $scope.custom = $scope.custom === false ? true: false;};
 
 
 });

@@ -2,7 +2,8 @@
   <ion-nav-buttons side="secondary">
     <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
   </ion-nav-buttons>
-  <ion-content>
-    <p>Hello! This is the issue map screen.</p>
+  <ion-content scroll='false'>
+    <h1>Here the map with issues</h1>
+    <leaflet defaults="mapDefaults" center="mapCenter" markers="mapMarkers" data-tap-disabled="true" height='100%'></leaflet>
   </ion-content>
 </ion-view>
