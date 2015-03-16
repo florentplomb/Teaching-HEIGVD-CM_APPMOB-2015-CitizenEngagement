@@ -1,4 +1,4 @@
-var list = angular.module('citizen-engagement.issueList', []);
+var list = angular.module('citizen-engagement.issueList', [])
 
 
 list.controller('ListCtrl', function($scope ,IssueService,IssueTypeService,$state) {

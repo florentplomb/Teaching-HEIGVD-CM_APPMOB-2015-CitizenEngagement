@@ -1,10 +1,14 @@
 
-var detailApp = angular.module('citizen-engagement.issueDetails',[]);
+var detailApp = angular.module('citizen-engagement.issueDetails',[])
+
 
 
 detailApp.controller('DetailCtrl',function($scope,$stateParams,IssueService){
 
+
+
 var issueId = $stateParams;
+
 
 
 var callback = function(error, issue){
@@ -18,6 +22,7 @@ var callback = function(error, issue){
 };
 
 IssueService.getIssue(callback,issueId);
+
 
 
 });
