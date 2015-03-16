@@ -1,4 +1,4 @@
-<ion-view view-title="Issue List" ng-controller="ListCtrl" >
+<ion-view view-title="Issue-List" ng-controller="ListCtrl" >
 
   <ion-nav-buttons side="primary">
 
@@ -10,9 +10,7 @@
 
   </ion-nav-buttons>
 
-
   <ion-content>
-
 
   <div>
 
@@ -22,13 +20,8 @@
         <option  ng-repeat="type in issueTypes" value="{{type.id}}">{{type.name}}</option>
     </select>
        
-
- 
-
   </div>
 <ion-list>
-
-
 
   <ion-item ng-click="goToIssueDetails(issue)" ng-repeat="issue in issues" ng-show="issue.issueType.id == filter.type || custom == true"   class="item-thumbnail-left">
 
