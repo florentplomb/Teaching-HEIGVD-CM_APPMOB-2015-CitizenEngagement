@@ -16,31 +16,31 @@
 
   <div>
 
-    <button ng-click="toggleCustom()">Filtre</button>
+    <button class="button icon ion-gear-a" ng-click="toggleCustom()"> Filtre</button>
      
   <select ng-hide="custom" ng-model="filter.type">    
         <option  ng-repeat="type in issueTypes" value="{{type.id}}">{{type.name}}</option>
     </select>
        
-
- 
-
   </div>
-<ion-list>
 
 
 
-  <ion-item ng-click="goToIssueDetails(issue)" ng-repeat="issue in issues" ng-show="issue.issueType.id == filter.type || custom == true"   class="item-thumbnail-left">
 
+
+<div class="card item item-thumbnail-left topcolor"  ng-click="goToIssueDetails(issue)" ng-repeat="issue in issues" ng-show="issue.issueType.id == filter.type || custom == true"   class="item-thumbnail-left" >
+ 
   <img ng-src="{{issue.imageUrl}}">
 
     
      <h3>{{issue.description}}</h3>
 
     <p> {{issue.state}}</p>
-  </ion-item>
 
-</ion-list>
+
+ 
+</div>
+
 
   </ion-content>
 </ion-view>

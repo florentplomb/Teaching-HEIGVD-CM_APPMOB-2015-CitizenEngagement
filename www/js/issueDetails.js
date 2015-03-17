@@ -8,14 +8,18 @@ detailApp.controller('DetailCtrl',function($scope,$stateParams,IssueByIdService)
 
 var issueId = $stateParams.issueId;
 
+        $scope.custom = true;
+        $scope.toggleCustom = function() {
+        $scope.custom = $scope.custom === false ? true: false;};
+        
 
 var callback = function(error, issues){
 	if (error) {
 		 $scope.error = error;
 	} else {
 
-		$scope.issues = issues;
-		console.log(issues);
+		$scope.issue = issue;
+		
 	}
 };
 IssueByIdService.getIssue(callback,issueId);
