@@ -1,15 +1,24 @@
 var list = angular.module('citizen-engagement.issueList', [])
 
 
-list.controller('ListCtrl', function($scope ,IssueService) {
+list.controller('ListCtrl', function($scope ,IssueService,IssueTypeService,$state) {
 
 
+$scope.goToIssueDetails = function(issue) {
+$state.go("tab.issueDetails", { issueId: issue.id });
+};
+
+
+
+
+$scope.filter = {};
 
 var callback = function(error, issues){
 	if (error) {
 		 $scope.error = error;
 	} else {
-		$scope.items = issues;
+
+		$scope.issues = issues;
 	}
 };
 
@@ -17,19 +26,24 @@ IssueService.getIssues(callback);
 
 
 
- $scope.data = {
-    showDelete: false
-  };
+IssueTypeService.getIssuesType(function(error, issuesTypes){
+	if (error) {
+		 $scope.error = error;
+	} else {
 
-  
-  $scope.onItemDelete = function(issue) {
-    $scope.issues.splice($scope.items.indexOf(item), 1);
-  };
+		$scope.issueTypes = issuesTypes;
+		$scope.filter.type = issuesTypes[0].id;
+
+		
+	}
+});
+
+        $scope.custom = true;
+        $scope.toggleCustom = function() {
+        $scope.custom = $scope.custom === false ? true: false;};
 
 
 });
-
-
 
 
 
@@ -46,6 +60,21 @@ return {
 		}
 	
 };
+
+});
+
+list.factory("IssueTypeService", function($http, apiUrl) {
+return {	
+		getIssuesType: function(callback){
+			 $http.get(apiUrl+"/issueTypes").success(function(data){
+				issueType = data;					
+				callback(null, issueType);
+			}).error(function(error) {
+				callback(error);
+			});
+		}
+	
+}
 
 });
 

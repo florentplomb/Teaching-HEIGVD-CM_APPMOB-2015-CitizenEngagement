@@ -1,30 +1,46 @@
-<ion-view view-title="Issue List">
+<ion-view view-title="Issue List" ng-controller="ListCtrl" >
+
+  <ion-nav-buttons side="primary">
+
+  </ion-nav-buttons>
 
   <ion-nav-buttons side="secondary">
 
-
-        <button  class="button button-icon icon ion-ios-minus-outline"
-          ng-click="data.showDelete = !data.showDelete; data.showReorder = false"></button>
-
-    <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
+    <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log out</button>
 
   </ion-nav-buttons>
+
+
   <ion-content>
-<ion-list ng-controller="ListCtrl" show-delete="shouldShowDelete">
-
-  
-
-  <ion-item ng-repeat="item in items" class="item-thumbnail-left">
 
 
-   
+  <div>
 
-  <img ng-src="{{item.imageUrl}}">
-     <h3>{{item.description}}</h3>
-    <p> {{item.state}}</p>
-  </ion-item>
+    <button class="button icon ion-gear-a" ng-click="toggleCustom()"> Filtre</button>
+     
+  <select ng-hide="custom" ng-model="filter.type">    
+        <option  ng-repeat="type in issueTypes" value="{{type.id}}">{{type.name}}</option>
+    </select>
+       
+  </div>
 
-</ion-list>
+
+
+
+
+<div class="card item item-thumbnail-left topcolor"  ng-click="goToIssueDetails(issue)" ng-repeat="issue in issues" ng-show="issue.issueType.id == filter.type || custom == true"   class="item-thumbnail-left" >
+ 
+  <img ng-src="{{issue.imageUrl}}">
+
+    
+     <h3>{{issue.description}}</h3>
+
+    <p> {{issue.state}}</p>
+
+
+ 
+</div>
+
 
   </ion-content>
 </ion-view>
