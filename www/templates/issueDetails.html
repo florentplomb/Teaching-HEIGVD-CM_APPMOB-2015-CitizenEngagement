@@ -13,34 +13,25 @@
     <p>{{issue.description}}</p>
     <p>
       <a href="#" class="subdued">1 Like</a>
-      <a href="" class="subdued" ng-click="toggleCustom()">{{issue.comments.length}} comments</a>
+      <a href="" ng-class="{colorred: !custom}" class="subdued" ng-click="toggleCustom()">
+        <i class="icon ion-chatbox"></i> {{issue.comments.length}} comments</a>
     </p>
   </div>
 
-  <div class="item tabs tabs-secondary tabs-icon-left">
-    <a class="tab-item" href="#">
-      <i class="icon ion-thumbsup"></i>
-      Like
-    </a>
-    <a class="tab-item" href="#">
-      <i class="icon ion-chatbox"></i>
-      Comment
-    </a>
-    <a class="tab-item" href="#">
-      <i class="icon ion-share"></i>
-      Share
-    </a>
-  </div>
 
 </div>
 
   <div ng-hide="custom">
+
+  <div class="card item topcolor comment" ng-controller='AddCommentCtrl'> <textarea placeholder="Describe yourself here..."></textarea> </div>
     
 <div class="card item topcolor comment" ng-repeat="comment in issue.comments"  class="item-thumbnail-left" >
     
      <h3>{{comment.author.name}}</h3>
 
     <p>{{comment.text}}</p>
+
+    <p>{{comment.postedOn | date:'medium'}}</p>
 
 
  

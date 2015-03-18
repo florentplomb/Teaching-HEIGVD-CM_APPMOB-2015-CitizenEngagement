@@ -8,9 +8,17 @@
 	background-color: #f5f8fb
 }
 
+a.colorred  {
+		
+		color:#62f278;
+		
+		font-size: 1.2em;
+}
+
+
 
 .comment {
-		  border-top-color: #62f278;
+		  border-top-color: #65f247;
 	  border-top-width: 3px;
 }
 
