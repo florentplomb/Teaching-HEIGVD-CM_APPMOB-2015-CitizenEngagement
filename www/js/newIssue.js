@@ -1,23 +1,52 @@
-angular.module('citizen-engagement.newIssue', [])
+var newIssueApp = angular.module('citizen-engagement.newIssue', [])
 
-.config(function($compileProvider){
+newIssueApp.config(function($compileProvider){
 
 	$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 
-})
+});
 
-.controller('NewIssueCtrl', function($scope) {
-
-
-	$scope.issueTypes = [
-		{ desc: 'fire' },
-		{ desc: 'damage' }
-	];
+newIssueApp.controller('NewIssueCtrl', function($scope,IssueTypeService) {
 
 
-})
+	// $scope.issueTypes = [
+	// 	{ desc: 'fire' },
+	// 	{ desc: 'damage' }
+	// ];
 
-.factory('Camera', ['$q', function($q) {
+	IssueTypeService.getIssuesType(function(error, issuesTypes){
+	if (error) {
+		 $scope.error = error;
+	} else {
+
+		$scope.issueTypes = issuesTypes;
+		//$scope.filter.type = issuesTypes[0].id;
+
+		
+	}
+});
+
+
+});
+
+newIssueApp.factory("IssueTypeService", function($http, apiUrl) {
+return {	
+		getIssuesType: function(callback){
+			 $http.get(apiUrl+"/issueTypes").success(function(data){
+				issueType = data;					
+				callback(null, issueType);
+			}).error(function(error) {
+				callback(error);
+			});
+		}
+	
+}
+
+});
+
+
+
+newIssueApp.factory('Camera', ['$q', function($q) {
 
 	return {
 		getPicture: function(options) {
@@ -34,9 +63,9 @@ angular.module('citizen-engagement.newIssue', [])
 		}
 	};
 
-}])
+}]);
 
-.controller('photoCtrl', function($scope, Camera) {
+newIssueApp.controller('photoCtrl', function($scope, Camera) {
 
 	$scope.getPhoto = function() {
 		Camera.getPicture({
@@ -52,10 +81,6 @@ angular.module('citizen-engagement.newIssue', [])
     		console.err(err);
     	});
     };
-})
+});
 
 
-
-;
-
-;

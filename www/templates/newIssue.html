@@ -1,4 +1,4 @@
-<ion-view view-title="New Issue">
+<ion-view view-title="New Issue" ng-controller="NewIssueCtrl">
   <ion-nav-buttons side="secondary">
     <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
   </ion-nav-buttons>
@@ -6,9 +6,10 @@
     <h1>Post a new issue</h1>
     <div>
       <p></p>
-      <select ng-model="issue.issueTypeId" ng-options="type.desc for type in issueTypes"></select>
+      <select>    
+        <option  ng-repeat="type in issueTypes" value="{{type.id}}">{{type.name}}</option>
+      </select>
     </div>
-    <p ng-show="error">{{error}}</p>
     <button ng-click="getPhoto()" class="button button-block block-primary">Take Photo</button>
     <img ng-src="{{lastPhoto}}" style="max-width: 100%">
   </ion-content>
