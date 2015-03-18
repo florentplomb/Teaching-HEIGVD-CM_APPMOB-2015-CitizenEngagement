@@ -14,18 +14,32 @@ newIssueApp.controller('NewIssueCtrl', function($scope,IssueTypeService) {
 	// 	{ desc: 'damage' }
 	// ];
 
-	IssueTypeService.getIssuesType(function(error, issuesTypes){
-	if (error) {
-		 $scope.error = error;
-	} else {
+	 $scope.$on('$ionicView.beforeEnter', function() {
+	 	
+			IssueTypeService.getIssuesType(function(error, issuesTypes){
+			if (error) {
+				 $scope.error = error;
+			} else {
 
-		$scope.issueTypes = issuesTypes;
-		//$scope.filter.type = issuesTypes[0].id;
+				$scope.issueTypes = issuesTypes;
+				//$scope.filter.type = issuesTypes[0].id;
+				
+			}
+		});
+    });
 
-		
-	}
+
+
+
 });
 
+newIssueApp.controller('AddDescriptionCtrl',function($scope,IssuePostComment){
+
+$scope.addComment= function(){
+	
+	alert("hey");
+};
+        
 
 });
 
