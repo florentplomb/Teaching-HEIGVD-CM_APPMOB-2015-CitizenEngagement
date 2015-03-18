@@ -15,11 +15,16 @@ a.colorred  {
 		font-size: 1.2em;
 }
 
+.send{
+	float: right;
+	
+}
 
-
-.comment {
+.card.comment {
 		  border-top-color: #65f247;
 	  border-top-width: 3px;
+	  padding-top: 1.1em;
+	  padding-bottom: 1.1em;
 }
 
 

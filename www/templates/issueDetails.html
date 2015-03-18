@@ -23,9 +23,12 @@
 
   <div ng-hide="custom">
 
-  <div class="card item topcolor comment" ng-controller='AddCommentCtrl'> <textarea placeholder="Describe yourself here..."></textarea> </div>
+  <div class="card item topcolor comment" > <textarea ng-model="textComment" placeholder="Write here">{{textComment}}</textarea> 
+    <button class="send button button-small button-assertive" ng-hide="!textComment" ng-click="postComment(textComment)" ng-click="ClearFn()">
+  Send
+</button> </div>
     
-<div class="card item topcolor comment" ng-repeat="comment in issue.comments"  class="item-thumbnail-left" >
+<div class="card item topcolor comment" ng-repeat="comment in issue.comments | orderBy: '-postedOn'"  class="item-thumbnail-left" >
     
      <h3>{{comment.author.name}}</h3>
 

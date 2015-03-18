@@ -1,18 +1,36 @@
 
  var detailApp = angular.module('citizen-engagement.issueDetails',[])
 
-detailApp.controller('AddCommentCtrl',function($scope,IssuePostComment){
 
-$scope.addComment= function(){
+
+detailApp.controller('DetailCtrl',function($scope,$stateParams,IssueByIdService,IssuePostComment){
+
+
+$scope.postComment= function(textComment){
+
+
+	var issueId = $stateParams.issueId;
 	
-	alert("hey");
+	var callback = function(error, issue){
+	if (error) {
+		 $scope.error = error;
+	} else {
+
+		$scope.issue = issue;
+		     
+
+		
+	}
+	
 };
-        
+	
+	IssuePostComment.postComment(callback,issueId,textComment);
+	
 
-});
+};
 
 
-detailApp.controller('DetailCtrl',function($scope,$stateParams,IssueByIdService){
+
 
 var issueId = $stateParams.issueId;
 
@@ -53,8 +71,8 @@ return {
 
 detailApp.factory("IssuePostComment", function($http, apiUrl) {
 return {	
-		postComment: function(callback,issueId,text){
-			 $http.post(apiUrl+"/issues/"+issueId+"/actions",{"type": "comment","payload": {"text": text}
+		postComment: function(callback,issueId,textComment){
+			 $http.post(apiUrl+"/issues/"+issueId+"/actions",{"type": "comment","payload": {"text": textComment}
 }).success(function(data){
 				issue = data;
 								

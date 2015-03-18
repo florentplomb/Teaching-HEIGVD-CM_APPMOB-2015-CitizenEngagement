@@ -7,7 +7,7 @@ angular.module('citizen-engagement.auth', ['angular-storage'])
 
       setUser: function(user) {
         service.currentUserId = user.userId;
-        store.set('currentUserId', user.userId);
+        store.set('currentUserId', user.userId); // stock userid la je pourrais rajouter se role 
       },
 
       unsetUser: function() {
