@@ -1,7 +1,7 @@
 /* Empty. Add your own CSS if you like .*/
 
 .item{
-	  border-top-color: #337cf5;
+	  border-top-color: #3281ed;
 	  border-top-width: 3px;
 }
 .scroll{
@@ -10,16 +10,18 @@
 
 a.colorred  {
 		
-		color:#62f278;
-		
-		font-size: 1.2em;
+	color:#3281ed;	
+	font-size: 1.2em;
 }
 
 
 
 .comment {
-		  border-top-color: #65f247;
-	  border-top-width: 3px;
+	border-top-color: #3281ed;
+	border-top-width: 3px;
 }
 
+.tab-nav {
+	background-color: #D8D8D8;
 
+}

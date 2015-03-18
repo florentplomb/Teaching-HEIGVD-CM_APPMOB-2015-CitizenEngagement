@@ -3,14 +3,23 @@
     <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
   </ion-nav-buttons>
   <ion-content padding="true" ng-controller="photoCtrl">
+
     <h1>Post a new issue</h1>
-    <div>
-      <p></p>
-      <select>    
-        <option  ng-repeat="type in issueTypes" value="{{type.id}}">{{type.name}}</option>
-      </select>
-    </div>
-    <button ng-click="getPhoto()" class="button button-block block-primary">Take Photo</button>
-    <img ng-src="{{lastPhoto}}" style="max-width: 100%">
+      <div>
+        <p>Select a type of issue</p>
+        <select>    
+          <option  ng-repeat="type in issueTypes" value="{{type.id}}">{{type.name}}</option>
+        </select>
+      </div>
+    
+      <button ng-click="getPhoto()" class="button button-block block-primary">Take Photo</button>
+      <img ng-src="{{lastPhoto}}" style="max-width: 100%">
+
+      <div class="card item topcolor comment" ng-controller='AddDescriptionCtrl'> 
+        <textarea placeholder="Please give more details about the issue..."></textarea> 
+      </div>
+
+      <button ng-click="" class="button button-block block-secondary">Save that issue</button>
+
   </ion-content>
 </ion-view>

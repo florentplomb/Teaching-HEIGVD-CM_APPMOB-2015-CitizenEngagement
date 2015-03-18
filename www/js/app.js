@@ -99,7 +99,7 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
 
   // Define the default state (i.e. the first page displayed when the app opens).
   $urlRouterProvider.otherwise(function($injector) {
-    $injector.get('$state').go('login'); // Go to the new issue tab by default.
+    $injector.get('$state').go('tab.newIssue'); // Go to the new issue tab by default.
   });
 });
 
