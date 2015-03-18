@@ -4,9 +4,9 @@
   </ion-nav-buttons>
   <ion-content padding="true" ng-controller="photoCtrl">
     <h1>Post a new issue</h1>
-    <select ng-controller="NewIssueCtrl">
-    	<option ng-repeat="type in types">{{type.desc}}</option>
+    <select ng-model="issue.issueTypeId" ng-options="type.desc for type in issueTypes">
     </select>
+    <p ng-show="error">{{error}}</p>
     <button ng-click="getPhoto()" class="button button-block block-primary">Take Photo</button>
     <img ng-src="{{lastPhoto}}" style="max-width: 100%">
   </ion-content>
