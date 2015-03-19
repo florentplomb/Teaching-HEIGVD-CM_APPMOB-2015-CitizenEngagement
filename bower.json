@@ -7,7 +7,8 @@
   "dependencies": {
     "a0-angular-storage": "~0.0.9",
     "angular-leaflet-directive": "~0.7.11",
-    "angularjs-geolocation": "~0.1.1"
-
+    "angularjs-geolocation": "~0.1.1",
+    "moment": "~2.9.0",
+    "ionicons": "~2.0.1"
   }
 }
