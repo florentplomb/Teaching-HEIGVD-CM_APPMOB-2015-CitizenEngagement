@@ -58,7 +58,7 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
     })
 
     .state('tab.issueMap', {
-      url: '/issueMap',
+      url: '/issueMap?issueId',
       views: {
         'tab-issueMap': {
           templateUrl: 'templates/issueMap.html',
@@ -66,6 +66,8 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
         }
       }
     })
+
+
 
     .state('tab.issueList', {
       url: '/issueList',

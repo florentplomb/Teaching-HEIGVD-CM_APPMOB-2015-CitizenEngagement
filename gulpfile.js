@@ -9,6 +9,7 @@ var replace = require('gulp-replace');
 var sh = require('shelljs');
 
 
+
 var paths = {
   sass: ['./scss/**/*.scss']
 };
@@ -27,6 +28,8 @@ function saveConfig(environment) {
     .pipe(replace(/@apiUrl@/, config.apiUrl))
     .pipe(replace(/@mapboxMapId@/, config.mapboxMapId))
     .pipe(replace(/@mapboxAccessToken@/, config.mapboxAccessToken))
+
+
 
     // Save the result in www/js.
     .pipe(gulp.dest('www/js'));

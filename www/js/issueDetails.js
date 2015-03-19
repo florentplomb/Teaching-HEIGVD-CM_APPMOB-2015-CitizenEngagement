@@ -3,8 +3,18 @@
 
 
 
-detailApp.controller('DetailCtrl',function($scope,$stateParams,IssueByIdService,IssuePostComment){
+detailApp.controller('DetailCtrl',function($scope,$stateParams,IssueByIdService,IssuePostComment,$state){
 
+var issueId = $stateParams.issueId;
+
+
+$scope.goToIssueMap = function() {
+
+$state.go("tab.issueMap", { issueId: issueId });
+};
+
+
+$scope.commentAdd ={};
 
 $scope.postComment= function(textComment){
 
@@ -17,14 +27,15 @@ $scope.postComment= function(textComment){
 	} else {
 
 		$scope.issue = issue;
-		     
+		$scope.commentAdd.text="";
+		 
 
 		
 	}
 	
 };
 	
-	IssuePostComment.postComment(callback,issueId,textComment);
+	IssuePostComment.postComment(callback,issueId,$scope.commentAdd.text);
 	
 
 };
@@ -32,7 +43,7 @@ $scope.postComment= function(textComment){
 
 
 
-var issueId = $stateParams.issueId;
+
 
         $scope.custom = true;
         $scope.toggleCustom = function() {
@@ -64,7 +75,11 @@ return {
 			}).error(function(error) {
 				callback(error);
 			});
+
+
 		}
+
+
 	
 }
 });
