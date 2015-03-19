@@ -15,7 +15,7 @@ newIssueApp.controller('NewIssueCtrl', function($scope,IssueTypeService) {
 	// ];
 
 	 $scope.$on('$ionicView.beforeEnter', function() {
-	 	
+
 			IssueTypeService.getIssuesType(function(error, issuesTypes){
 			if (error) {
 				 $scope.error = error;
@@ -79,20 +79,39 @@ newIssueApp.factory('Camera', ['$q', function($q) {
 
 }]);
 
-newIssueApp.controller('photoCtrl', function($scope, Camera) {
+
+
+
+newIssueApp.controller('photoCtrl', function($scope, Camera, qimgUrl, qimgToken) {
 
 	$scope.getPhoto = function() {
 		Camera.getPicture({
 			quality: 75,
 			targetWidth: 320,
 			targetHeight: 320,
-			saveToPhotoAlbum: false
-		}).then(function(imageURI) {
-			console.log(imageURI);
-       		$scope.lastPhoto = imageURI; //Last picture
+			saveToPhotoAlbum: false,
+			destinationType: Camera.DestinationType.DATA_URL
+		}).then(function(imageData) {
+			console.log(imageData);
+       		
+       		$http({
+				method: "POST",
+				url: qimgUrl + "/images",
+				headers: {
+				Authorization: "Bearer " + qimgToken 
+				},
+				data: {
+				data: imageData
+				}
+				}).success(function(data) {
+				var imageUrl = data.url;
+				$scope.lastPhoto = imageUrl;
+				// do something with imageUrl
+				}); 
     	}, function(err) {
     		$scope.error = err;
     		console.err(err);
+
     	});
     };
 });

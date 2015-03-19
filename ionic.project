@@ -5,6 +5,10 @@
     {
       "path": "/api-proxy",
       "proxyUrl": "https://tranquil-headland-6881.herokuapp.com/api"
+    },
+    {
+      "path": "/qimg-proxy",
+      "proxyUrl": "https://warm-bastion-3094.herokuapp.com/api"
     }
   ]
 }
