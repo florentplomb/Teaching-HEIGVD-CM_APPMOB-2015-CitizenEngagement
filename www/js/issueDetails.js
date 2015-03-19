@@ -16,7 +16,7 @@ $state.go("tab.issueMap", { issueId: issueId });
 
 $scope.commentAdd ={};
 
-$scope.postComment= function(textComment){
+$scope.postComment= function(){
 
 
 	var issueId = $stateParams.issueId;
@@ -41,15 +41,9 @@ $scope.postComment= function(textComment){
 };
 
 
-
-
-
-
         $scope.custom = true;
         $scope.toggleCustom = function() {
         $scope.custom = $scope.custom === false ? true: false;};
-
-
 
 
 var callback = function(error, issues){

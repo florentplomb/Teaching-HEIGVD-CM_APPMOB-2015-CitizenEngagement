@@ -5,61 +5,85 @@ var mapApp = angular.module('citizen-engagement.issueMap', ["leaflet-directive",
 
 mapApp.controller("MapController", function ($log, $scope, IssueService, $stateParams, mapboxMapId, mapboxAccessToken, geolocation) {
 
+
+$scope.test = function(){
+    alert("hey");
+}
+           $scope.mapMarkers = [];
+  $scope.mapCenter = {};
+
     $scope.$on('$ionicView.beforeEnter', function () {
+
 
         if ($stateParams.issueId) {
 
-        	var issueId = $stateParams.issueId;
+            var issueId = $stateParams.issueId;
 
-   var callback = function(error, issues){
-	if (error) {
-		 $scope.error = error;
-	} else {
+            var callback = function (error, issue) {
+                if (error) {
+                    $scope.error = error;
+                } else {
+                   $scope.mapCenter = {
+                        lat: issue.lat,
+                        lng: issue.lng,
+                        zoom: 18
+                    };
 
+                    for (var i = 0; i < $scope.mapMarkers.length; i++) {
+                        $scope.mapMarkers[i].icon ={
+                            iconUrl: '../img/ionic.png',
+                            iconSize: [38, 95]
+                        };
 
-	//	$scope.issue = issue;
-
-		$scope.mapCenter = {
-        lat: issue.lat,
-        lng: issue.lng,
-        zoom: 18
-
-
-
-
-    };
-    var myIcon = L.icon({
-    iconUrl: 'my-icon.png',
-    iconRetinaUrl: 'my-icon@2x.png',
-    iconSize: [38, 95],
-    iconAnchor: [22, 94],
-    popupAnchor: [-3, -76],
-    shadowUrl: 'my-icon-shadow.png',
-    shadowRetinaUrl: 'my-icon-shadow@2x.png',
-    shadowSize: [68, 95],
-    shadowAnchor: [22, 94]
-});
-
-	          for (var i = 0; i < $scope.mapMarkers.length; i++) {
-                var marker = $scope.mapMarkers[i];
-
-               marker.icon = myIcon;
+                    }
 
 
+                }
+            };
+           
+            IssueService.getIssueId(callback, issueId);
 
-            }
-		
-		
-		
-	}
-};
-            IssueService.getIssueId(callback,issueId);
+        } else{
+
+                   $scope.mapCenter = {
+         lat: 46.7833,
+         lng: 6.65,
+        zoom: 14
+     };
+        geolocation.getLocation().then(function (data) {
+        $scope.mapCenter.lat = data.coords.latitude;
+        $scope.mapCenter.lng = data.coords.longitude;
+        $scope.mapCenter.zoom = 14;
 
 
+                $scope.mapMarkers.push({
+                    lat: data.coords.latitude,
+                    lng: data.coords.longitude,
+                    icon:{
+                     iconUrl: '../img/redicon.png',
+                     iconSize:[30, 40] },           
+
+                });
+
+    }, function (error) {
+        $log.error("Could not get location: " + error);
+           $scope.mapCenter = {
+         lat: 46.7833,
+         lng: 6.65,
+        zoom: 14
+     };
+
+
+    });
         };
 
 
     });
+
+
+
+
+
 
 
     var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + "cleliapanchaud.kajpf86n";
@@ -67,19 +91,9 @@ mapApp.controller("MapController", function ($log, $scope, IssueService, $stateP
     $scope.mapDefaults = {
         tileLayer: mapboxTileLayer
     };
+             
 
-    $scope.mapCenter = {
-        lat: 46.7833,
-        lng: 6.65,
-        zoom: 14
-    };
 
-    geolocation.getLocation().then(function (data) {
-        $scope.mapCenter.lat = data.coords.latitude;
-        $scope.mapCenter.lng = data.coords.longitude;
-    }, function (error) {
-        $log.error("Could not get location: " + error);
-    });
 
 
 
@@ -90,7 +104,6 @@ mapApp.controller("MapController", function ($log, $scope, IssueService, $stateP
 
             $scope.issues = issues;
 
-            $scope.mapMarkers = [];
 
             function createMarkerScope(issue) {
                 return function () {
@@ -106,10 +119,13 @@ mapApp.controller("MapController", function ($log, $scope, IssueService, $stateP
                 //console.log(issue);
 
                 $scope.mapMarkers.push({
-                	issueId: issue.id,
+                    issueId: issue.id,
                     lat: issue.lat,
                     lng: issue.lng,
-                    message: '<p>{{issue.description}}</p>',
+                    // icon:{
+                    //  iconUrl: '../img/ionic.png',
+                    //  iconSize:[38, 95] },           
+                    message: '<div ng-click="test()"><p>{{issue.description}}</p></div> ',
                     getMessageScope: createMarkerScope(issue)
 
                 });
