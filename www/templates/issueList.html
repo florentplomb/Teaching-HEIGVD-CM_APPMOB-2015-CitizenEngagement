@@ -2,6 +2,10 @@
 
   <ion-nav-buttons side="primary">
 
+  <button class="button button clear icon ion-gear-a" ng-click="toggleCustom()"></button>
+  <button class="button icon ion-search" ng-click=""></button>
+
+
   </ion-nav-buttons>
 
   <ion-nav-buttons side="secondary">
@@ -14,15 +18,21 @@
   <ion-content>
 
 
-  <div>
+<div class="list" ng-hide="custom">
 
-    <button class="button icon ion-gear-a" ng-click="toggleCustom()"> Filtre</button>
-     
-  <select ng-hide="custom" ng-model="filter.type">    
-        <option  ng-repeat="type in issueTypes" value="{{type.id}}">{{type.name}}</option>
+  <label class="item item-input item-select">
+    <div class="input-label">
+      Filters
+    </div> 
+    <select  ng-model="filter.type">
+      <option ng-repeat="type in issueTypes" value="{{type.id}}">{{type.name}}</option>
     </select>
-       
-  </div>
+  </label>
+
+</div>
+
+
+
 
 
 
