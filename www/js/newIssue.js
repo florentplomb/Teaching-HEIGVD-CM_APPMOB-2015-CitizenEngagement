@@ -91,9 +91,7 @@ newIssueApp.controller('photoCtrl', function($scope, Camera, qimgUrl, qimgToken)
 			targetHeight: 320,
 			saveToPhotoAlbum: false,
 			destinationType: Camera.DestinationType.DATA_URL
-		}).then(function(imageData) {
-			console.log(imageData);
-       		
+		}).then(function(imageData) {       		
        		$http({
 				method: "POST",
 				url: qimgUrl + "/images",
