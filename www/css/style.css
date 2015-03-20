@@ -19,6 +19,15 @@ a.colorred  {
 	
 }
 
+#loc{
+	float: right;	
+	font-size:3em;
+	padding: 0.2em;
+}
+#loc:hover{
+	color:blue;
+}
+
 .iconsize{
 	font-size: 1.2em;
 

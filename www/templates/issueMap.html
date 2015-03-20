@@ -1,9 +1,15 @@
-<ion-view view-title="Issue Map">
+<ion-view view-title="Issue Map" ng-controller="MapController">
   <ion-nav-buttons side="secondary">
     <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
   </ion-nav-buttons>
   <ion-content scroll='false'>
     <h1>Here the map with issues</h1>
-    <leaflet defaults="mapDefaults" center="mapCenter" markers="mapMarkers" data-tap-disabled="true" height='100%'></leaflet>
+    <leaflet defaults="mapDefaults" center="mapConfig.center" markers="mapConfig.markers.m" data-tap-disabled="true" height='100%'>
+    
+    <i  id="loc" ng-click="location()" class="ion-android-locate leaflet-control"></i>  
+
+    
+
+    </leaflet>
   </ion-content>
 </ion-view>
