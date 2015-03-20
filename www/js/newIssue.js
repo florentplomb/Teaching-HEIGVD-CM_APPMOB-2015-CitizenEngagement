@@ -60,7 +60,7 @@ return {
 
 
 
-newIssueApp.factory('Camera', ['$q', function($q) {
+newIssueApp.factory('CameraService', ['$q', function($q) {
 
 	return {
 		getPicture: function(options) {
@@ -82,15 +82,15 @@ newIssueApp.factory('Camera', ['$q', function($q) {
 
 
 
-newIssueApp.controller('photoCtrl', function($scope, Camera, qimgUrl, qimgToken) {
+newIssueApp.controller('photoCtrl', function($scope, CameraService, qimgUrl, qimgToken) {
 
 	$scope.getPhoto = function() {
-		Camera.getPicture({
+		CameraService.getPicture({
 			quality: 75,
 			targetWidth: 320,
 			targetHeight: 320,
 			saveToPhotoAlbum: false,
-			destinationType: Camera.DestinationType.DATA_URL
+			destinationType: navigator.camera.DestinationType.DATA_URL
 		}).then(function(imageData) {       		
        		$http({
 				method: "POST",
