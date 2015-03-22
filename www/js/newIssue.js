@@ -1,60 +1,75 @@
 var newIssueApp = angular.module('citizen-engagement.newIssue', [])
 
-newIssueApp.config(function($compileProvider){
+newIssueApp.config(function($compileProvider) {
 
 	$compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 
 });
 
-newIssueApp.controller('NewIssueCtrl', function($scope,IssueTypeService) {
+newIssueApp.controller('NewIssueCtrl', function($scope, IssueTypeService, $http, qimgUrl, qimgToken) {
 
 
-	// $scope.issueTypes = [
-	// 	{ desc: 'fire' },
-	// 	{ desc: 'damage' }
-	// ];
+	$scope.testPost = function() {
 
-	 $scope.$on('$ionicView.beforeEnter', function() {
 
-			IssueTypeService.getIssuesType(function(error, issuesTypes){
+		alert("testPost");
+		$http({
+			method: "POST",
+			url: qimgUrl + "/images",
+			headers: {
+				"Content-type": "application/json",
+				"Authorization": "Bearer " + qimgToken
+			},
+			data: {
+				data: "uneimage"
+			}
+		}).success(function(data) {
+
+			alert(data);
+
+		});
+	}
+
+
+	$scope.$on('$ionicView.beforeEnter', function() {
+
+		$scope.photo = {};
+		$scope.photo.last = "";
+
+		IssueTypeService.getIssuesType(function(error, issuesTypes) {
 			if (error) {
-				 $scope.error = error;
+				$scope.error = error;
 			} else {
 
 				$scope.issueTypes = issuesTypes;
 				//$scope.filter.type = issuesTypes[0].id;
-				
+
 			}
 		});
-    });
-
+	});
 
 
 
 });
 
-newIssueApp.controller('AddDescriptionCtrl',function($scope,IssuePostComment){
+newIssueApp.controller('AddDescriptionCtrl', function($scope, IssuePostComment) {
 
-$scope.addComment= function(){
-	
-	alert("hey");
-};
-        
+
 
 });
 
 newIssueApp.factory("IssueTypeService", function($http, apiUrl) {
-return {	
-		getIssuesType: function(callback){
-			 $http.get(apiUrl+"/issueTypes").success(function(data){
-				issueType = data;					
+	return {
+		getIssuesType: function(callback) {
+			$http.get(apiUrl + "/issueTypes").success(function(data) {
+				issueType = data;
 				callback(null, issueType);
 			}).error(function(error) {
 				callback(error);
 			});
 		}
-	
-}
+
+	}
 
 });
 
@@ -67,11 +82,11 @@ newIssueApp.factory('CameraService', ['$q', function($q) {
 			var q = $q.defer();
 
 			navigator.camera.getPicture(function(result) {
-       		// Do any magic you need
-       			q.resolve(result);
-   			}, function(err) {
-   				q.reject(err);
-   			}, options);
+				// Do any magic you need
+				q.resolve(result);
+			}, function(err) {
+				q.reject(err);
+			}, options);
 
 			return q.promise;
 		}
@@ -81,37 +96,42 @@ newIssueApp.factory('CameraService', ['$q', function($q) {
 
 
 
-
 newIssueApp.controller('photoCtrl', function($scope, CameraService, qimgUrl, qimgToken) {
 
+
 	$scope.getPhoto = function() {
+		alert('getphoto');
 		CameraService.getPicture({
 			quality: 75,
 			targetWidth: 320,
 			targetHeight: 320,
 			saveToPhotoAlbum: false,
 			destinationType: navigator.camera.DestinationType.DATA_URL
-		}).then(function(imageData) {       		
-       		$http({
-				method: "POST",
+		}).then(function(imageData) {
+			alert("then" + imageData);
+			$http({
+				method: "post",
 				url: qimgUrl + "/images",
 				headers: {
-				Authorization: "Bearer " + qimgToken 
+					"Content-type": "application/json",
+					"Authorization": "Bearer " + qimgToken
 				},
 				data: {
-				data: imageData
+					data: imageData
 				}
-				}).success(function(data) {
+			}).success(function(data) {
+				alert("then sucess" + data);
+
 				var imageUrl = data.url;
-				$scope.lastPhoto = imageUrl;
-				// do something with imageUrl
-				}); 
-    	}, function(err) {
-    		$scope.error = err;
-    		console.err(err);
+				$scope.photo.last = imageUrl;
 
-    	});
-    };
+			});
+		}, function(err) {
+			alert("erorr" + err);
+
+			$scope.error = err;
+
+
+		});
+	};
 });
-
-
