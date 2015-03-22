@@ -9,27 +9,6 @@ newIssueApp.config(function($compileProvider) {
 newIssueApp.controller('NewIssueCtrl', function($scope, IssueTypeService, $http, qimgUrl, qimgToken) {
 
 
-	$scope.testPost = function() {
-
-
-		alert("testPost");
-		$http({
-			method: "POST",
-			url: qimgUrl + "/images",
-			headers: {
-				"Content-type": "application/json",
-				"Authorization": "Bearer " + qimgToken
-			},
-			data: {
-				data: "uneimage"
-			}
-		}).success(function(data) {
-
-			alert(data);
-
-		});
-	}
-
 
 	$scope.$on('$ionicView.beforeEnter', function() {
 
@@ -96,7 +75,7 @@ newIssueApp.factory('CameraService', ['$q', function($q) {
 
 
 
-newIssueApp.controller('photoCtrl', function($scope, CameraService, qimgUrl, qimgToken) {
+newIssueApp.controller('photoCtrl', function($scope,$http, CameraService, qimgUrl, qimgToken) {
 
 
 	$scope.getPhoto = function() {
