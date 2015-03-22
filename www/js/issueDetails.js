@@ -10,7 +10,7 @@ var issueId = $stateParams.issueId;
 
 $scope.goToIssueMap = function() {
 
-$state.go("tab.issueMap", { issueId: issueId });
+$state.go("tab.issueMapId", { issueId: issueId });
 };
 
 
