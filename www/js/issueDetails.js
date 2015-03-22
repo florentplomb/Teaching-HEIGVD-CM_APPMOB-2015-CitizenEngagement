@@ -3,7 +3,12 @@
 
 
 
-detailApp.controller('DetailCtrl',function($scope,$stateParams,IssueByIdService,IssuePostComment,$state){
+detailApp.controller('DetailCtrl',function($scope,$stateParams,IssueByIdService,IssuePostComment,$state, $ionicSideMenuDelegate){
+
+  	$scope.toggleRight = function() {
+    $ionicSideMenuDelegate.toggleRight();
+  };
+
 
 var issueId = $stateParams.issueId;
 
