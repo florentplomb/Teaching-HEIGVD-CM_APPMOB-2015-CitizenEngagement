@@ -32,6 +32,7 @@ IssueTypeService.getIssuesType(function(error, issuesTypes){
 	} else {
 
 		$scope.issueTypes = issuesTypes;
+
 		$scope.filter.type = issuesTypes[0].id;
 
 		

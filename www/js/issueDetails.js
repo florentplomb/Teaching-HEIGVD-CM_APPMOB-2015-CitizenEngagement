@@ -4,7 +4,9 @@ var detailApp = angular.module('citizen-engagement.issueDetails', [])
 
 detailApp.controller('DetailCtrl', function($scope, $stateParams, IssueByIdService, IssuePostComment, $state) {
 
+
 	var issueId = $stateParams.issueId;
+
 
 
 	$scope.goToIssueMap = function() {
