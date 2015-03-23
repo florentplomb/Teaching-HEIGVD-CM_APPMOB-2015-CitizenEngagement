@@ -12,23 +12,26 @@
   <label class="item item-input item-select">
     <div class="input-label">
       Select a type
-    </div> 
+    </div>
     <select  ng-model="newIssue.type">
-      <option selected disabled hidden value=''></option>
       <option ng-repeat="type in issueTypes" required="required" value="{{type.id}}">{{type.name}}</option>
     </select>
   </label>
 </div>
-      
-      <div class="card item" > 
-        <textarea ng-model="newIssue.desc" required="required" placeholder="Please give more details about the issue..."></textarea> 
+
+
+      <div class="card item" >
+        <textarea ng-model="newIssue.desc" required="required" placeholder="Please give more details about the issue..."></textarea>
       </div>
 
-     <div class="card item" > 
-        <textarea ng-model="newIssue.tag" placeholder="Tag..."></textarea> 
+     <div class="card item" >
+        <textarea ng-model="newIssue.tag" placeholder="Tag..."></textarea>
       </div>
 
-     
+      <button ng-click="addMarker()" class="button button-balanced">
+  Locatation
+</button>
+
       <button ng-click="getPhoto()" class="button button-block block-primary">Take Photo</button>
       <img ng-src="{{newIssue.photo}}" style="max-width: 100%">
 

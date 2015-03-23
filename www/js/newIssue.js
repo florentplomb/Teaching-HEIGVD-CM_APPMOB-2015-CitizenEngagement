@@ -1,4 +1,4 @@
-var newIssueApp = angular.module('citizen-engagement.newIssue', [])
+var newIssueApp = angular.module('citizen-engagement.newIssue', ['geolocation'])
 
 newIssueApp.config(function($compileProvider) {
 
@@ -6,12 +6,14 @@ newIssueApp.config(function($compileProvider) {
 
 });
 
-newIssueApp.controller('NewIssueCtrl', function($scope, IssueTypeService, $http, qimgUrl, qimgToken,CameraService) {
+newIssueApp.controller('NewIssueCtrl', function($scope,$state,	IssueTypeService, $http, qimgUrl, qimgToken,CameraService) {
 
 	$scope.$on('$ionicView.beforeEnter', function() {
 
+
+
 		$scope.newIssue = {};
-		
+
 
 		IssueTypeService.getIssuesType(function(error, issuesTypes) {
 			if (error) {
@@ -27,33 +29,37 @@ newIssueApp.controller('NewIssueCtrl', function($scope, IssueTypeService, $http,
 
 	$scope.saveIssue = function() {
 
-	console.log($scope.newIssue.type);
+		var newIssue = $scope.newIssue;
 
-	// var newIssue = $scope.newIssue;		
+		Issue.post(callback, newissue);
 
+		var callback = function(error, issue) {
+			if (error) {
+				$scope.error = error;
+			} else {
 
-	// 	Issue.postComment(callback, newissue);
+			$state.go("tab.issueMapId", {
+			issueId: issue.id
+		});
 
-		
-	// 	var callback = function(error, issue) {
-	// 		if (error) {
-	// 			$scope.error = error;
-	// 		} else {
+		}
 
-	// 		$state.go("tab.issueMapId", {
-	// 		issueId: issue.id
-	// 	});
-			
-	// 	}
-
-	// 	};
-
-		
+		};
 
 	};
 
+	$scope.addMarker = function(){
+
+		$state.go("tab.issueMapId", {
+		addMarker: 1
+
+	});
+}
+
+
+
 	$scope.getPhoto = function() {
-		
+
 		CameraService.getPicture({
 			quality: 75,
 			targetWidth: 320,
@@ -61,7 +67,7 @@ newIssueApp.controller('NewIssueCtrl', function($scope, IssueTypeService, $http,
 			saveToPhotoAlbum: false,
 			destinationType: navigator.camera.DestinationType.DATA_URL
 		}).then(function(imageData) {
-			
+
 			$http({
 				method: "post",
 				url: qimgUrl + "/images",
@@ -73,7 +79,7 @@ newIssueApp.controller('NewIssueCtrl', function($scope, IssueTypeService, $http,
 					data: imageData
 				}
 			}).success(function(data) {
-				
+
 				var imageUrl = data.url;
 				$scope.newIssue.photo = imageUrl;
 
@@ -96,11 +102,18 @@ newIssueApp.factory("Issue", function($http, apiUrl) {
 	return {
 		postIssue: function(callback, newIssue) {
 
-			$http.post(apiUrl + "/issues/" + issueId + "/actions", {
-				"type": "comment",
-				"payload": {
-					"text": textComment
-				}
+			$http.post(apiUrl + "/issues", {
+
+
+			  "description": "Integer at metus vitae erat porta pellentesque.",
+			  "lng": "6.651479812689227",
+			  "lat": "46.77227088657382",
+			  "imageUrl": "http://www.somewhere.localhost.localdomain",
+			  "issueTypeId": "54d8ae183fd30364605c81b1"
+
+
+
+
 			}).success(function(data) {
 				issue = data;
 

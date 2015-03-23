@@ -4,11 +4,11 @@
   </ion-nav-buttons>
   <ion-content scroll='false'>
     <h1>Here the map with issues</h1>
-    <leaflet defaults="mapDefaults" center="mapConfig.center" markers="mapConfig.markers" data-tap-disabled="true" height='100%'>
-    
-    <i  id="loc" ng-click="location()" class="ion-android-locate leaflet-control"></i>  
+    <leaflet defaults="mapDefaults" center="mapConfig.center" markers="mapConfig.markers" event-broadcast="events" data-tap-disabled="true" height='100%'>
 
-    
+    <i  id="loc" ng-click="location()" class="ion-android-locate leaflet-control"></i>
+
+
 
     </leaflet>
   </ion-content>

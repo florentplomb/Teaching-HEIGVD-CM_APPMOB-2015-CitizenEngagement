@@ -1,4 +1,4 @@
-var detailApp = angular.module('citizen-engagement.issueDetails', [])
+	var detailApp = angular.module('citizen-engagement.issueDetails', [])
 
 
 
@@ -12,7 +12,7 @@ detailApp.controller('DetailCtrl', function($scope, $stateParams, IssueByIdServi
 	$scope.goToIssueMap = function() {
 
 		$state.go("tab.issueMapId", {
-			issueId: issueId
+			issueId: $stateParams.issueId
 		});
 	};
 
