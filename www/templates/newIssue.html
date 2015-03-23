@@ -2,31 +2,38 @@
   <ion-nav-buttons side="secondary">
     <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
   </ion-nav-buttons>
-  <ion-content padding="true" ng-controller="photoCtrl">
+  <ion-content padding="true">
 
     <h1>Post a new issue</h1>
+
+<form name="issueForm">
 <div class="list" ng-hide="custom">
 
   <label class="item item-input item-select">
     <div class="input-label">
       Select a type
     </div> 
-    <select  ng-model="filter.type">
-      <option ng-repeat="type in issueTypes" value="{{type.id}}">{{type.name}}</option>
+    <select  ng-model="newIssue.type">
+      <option selected disabled hidden value=''></option>
+      <option ng-repeat="type in issueTypes" required="required" value="{{type.id}}">{{type.name}}</option>
     </select>
   </label>
-
 </div>
-    
-      <button ng-click="getPhoto()" class="button button-block block-primary">Take Photo</button>
-      <img ng-src="{{photo.last}}" style="max-width: 100%">
-
-      <div class="card item" ng-controller='AddDescriptionCtrl'> 
-        <textarea placeholder="Please give more details about the issue..."></textarea> 
+      
+      <div class="card item" > 
+        <textarea ng-model="newIssue.desc" required="required" placeholder="Please give more details about the issue..."></textarea> 
       </div>
 
-      <button ng-click="" class="button button-block block-secondary">Save that issue</button>
+     <div class="card item" > 
+        <textarea ng-model="newIssue.tag" placeholder="Tag..."></textarea> 
+      </div>
 
+     
+      <button ng-click="getPhoto()" class="button button-block block-primary">Take Photo</button>
+      <img ng-src="{{newIssue.photo}}" style="max-width: 100%">
+
+       <button ng-click="saveIssue()" ng-disabled="issueForm.$invalid || newIssue.type === ''" class="button button-block block-secondary">Save that issue</button>
+    </form>
   </ion-content>
 </ion-view>
 
