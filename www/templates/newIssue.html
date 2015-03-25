@@ -13,7 +13,7 @@
     <div class="input-label">
       Select a type
     </div>
-    <select  ng-model="newIssue.type">
+    <select  ng-model="newIssue.issueTypeId">
       <option ng-repeat="type in issueTypes" required="required" value="{{type.id}}">{{type.name}}</option>
     </select>
   </label>
@@ -24,18 +24,26 @@
         <textarea ng-model="newIssue.desc" required="required" placeholder="Please give more details about the issue..."></textarea>
       </div>
 
-     <div class="card item" >
-        <textarea ng-model="newIssue.tag" placeholder="Tag..."></textarea>
-      </div>
+     <div  >
 
-      <button ng-click="addMarker()" class="button button-balanced">
-  Locatation
-</button>
+    <ul ng-controller="ItemsController" id="tag" class="nav">
+        <input type="text" value="TagName" ng-model="newTagName"
+        placeholder="name of new tag...">
+            <button ng-disabled="!newTagName" ng-click="addTag()">Add Tag</button>
+        <li style="display:inline;" ng-repeat="tag in tags.data track by $index | limitTo: 3">
+            <span>{{tag}}</span>  <i ng-click="deleteTag($index)" class="ion-ios-close-outline"> </i>
+        </li>
+    </ul>
+</div>
+
+
+
+
 
       <button ng-click="getPhoto()" class="button button-block block-primary">Take Photo</button>
       <img ng-src="{{newIssue.photo}}" style="max-width: 100%">
 
-       <button ng-click="saveIssue()" ng-disabled="issueForm.$invalid || newIssue.type === ''" class="button button-block block-secondary">Save that issue</button>
+       <button ng-click="saveIssue()" ng-disabled="issueForm.$invalid || newIssue.issueTypeId === '' " class="button button-block block-secondary">Save that issue</button>
     </form>
   </ion-content>
 </ion-view>

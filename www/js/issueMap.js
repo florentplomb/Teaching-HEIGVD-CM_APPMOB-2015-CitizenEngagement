@@ -1,11 +1,18 @@
 var mapApp = angular.module('citizen-engagement.issueMap', ["leaflet-directive", 'geolocation'])
 
 
-mapApp.controller("MapController", function($log, $scope, IssueService, $stateParams, mapboxMapId, mapboxAccessToken, geolocation, $state) {
+mapApp.controller("MapController", function($log, $scope, $rootScope, IssueService, $stateParams, mapboxMapId, mapboxAccessToken, geolocation, $state) {
 
+    var locYverdon = {
+        lat: 46.7833,
+        lng: 6.65,
+        zoom: 14
+    };
+    $scope.events = {};
     $scope.mapConfig = {};
     $scope.mapConfig.markers = [];
     $scope.mapConfig.center = {};
+    $rootScope.newmarkers = [];
 
     var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + "cleliapanchaud.kajpf86n";
     mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}.png?access_token=" + "pk.eyJ1IjoiY2xlbGlhcGFuY2hhdWQiLCJhIjoiM2hMOEVXYyJ9.olp7FrLzmzSadE07IY8OMQ";
@@ -13,14 +20,9 @@ mapApp.controller("MapController", function($log, $scope, IssueService, $statePa
         tileLayer: mapboxTileLayer
     };
 
-
     $scope.$on('$ionicView.beforeEnter', function() {
 
-        $scope.mapConfig.center = {
-            lat: 46.7833,
-            lng: 6.65,
-            zoom: 14
-        };
+        $scope.mapConfig.center = locYverdon
 
         IssueService.getIssues(function(error, issues) {
             if (error) {
@@ -41,11 +43,12 @@ mapApp.controller("MapController", function($log, $scope, IssueService, $statePa
                 for (var i = 0; i < issues.length; i++) {
                     var issue = issues[i];
                     $scope.mapConfig.markers.push({
-                        issueId: issue.id,
+                        id: issue.id,
                         lat: issue.lat,
                         lng: issue.lng,
+                        opacity: 1,
                         icon: {},
-                        message: '<div ng-click=test("' + issue.id + '")><p>{{issue.description}}<a href="">Details</a></p></div>',
+                        message: '<div ng-click=goDetail("' + issue.id + '")><p>{{issue.description}}<a href="">Details</a></p></div>',
                         getMessageScope: createMarkerScope(issue)
 
                     });
@@ -76,9 +79,10 @@ mapApp.controller("MapController", function($log, $scope, IssueService, $statePa
                     for (var i = 0; i < $scope.mapConfig.markers.length; i++) {
 
                         if ($scope.mapConfig.markers[i].issueId == issueId) {
+
                             $scope.mapConfig.markers[i].icon = {
                                 iconUrl: '../img/green.png'
-                                    // iconSize:     [38, 95],
+
                             };
 
                         };
@@ -86,32 +90,26 @@ mapApp.controller("MapController", function($log, $scope, IssueService, $statePa
 
                     }
 
+                }
 
-
-                } else {
-
-                    geolocation.getLocation().then(function(data) {
-                        $scope.mapConfig.center.lat = data.coords.latitude;
-                        $scope.mapConfig.center.lng = data.coords.longitude;
-                        $scope.mapConfig.center.zoom = 14;
-                        $scope.mapConfig.markers.push({
-                            lat: data.coords.latitude,
-                            lng: data.coords.longitude,
-                            icon: {
-                                iconUrl: '../img/redicon.png',
-                                iconSize: [30, 40]
-                            },
-                        });
-                    }, function(error) {
-                        $log.error("Could not get location: " + error);
-                        $scope.mapConfig.center = {
-                            lat: 46.7833,
-                            lng: 6.65,
-                            zoom: 14
-                        };
-
+                geolocation.getLocation().then(function(data) {
+                    $scope.mapConfig.center.lat = data.coords.latitude;
+                    $scope.mapConfig.center.lng = data.coords.longitude;
+                    $scope.mapConfig.center.zoom = 14;
+                    $scope.mapConfig.markers.push({
+                        lat: data.coords.latitude,
+                        lng: data.coords.longitude,
+                        icon: {
+                            iconUrl: '../img/redicon.png',
+                            iconSize: [30, 40]
+                        },
+                        id: "me"
                     });
-                };
+                }, function(error) {
+                    $log.error("Could not get location: " + error);
+                    $scope.mapConfig.center = locYverdon;
+
+                });
 
 
 
@@ -123,35 +121,16 @@ mapApp.controller("MapController", function($log, $scope, IssueService, $statePa
 
 
 
-    if ($stateParams.addMarker) {
+    $scope.goDetail = function(issueId) {
 
-        $scope.events = {};
-
-        alert("hey");
-        $scope.$on("leafletDirectiveMap.click", function(event, args) {
-            var leafEvent = args.leafletEvent;
-            $scope.mapConfig.markers.push({
-                type: 'awesomeMarker',
-                icon: 'tag',
-                markerColor: 'red',
-                lat: leafEvent.latlng.lat,
-                lng: leafEvent.latlng.lng,
-                message: "My Added Marker"
-            });
-        });
-
-
-    }
-
-    $scope.test = function(issueId) {
-
-                alert(issueId);
-                $state.go("tab.issueDetails", {
+        $state.go("tab.issueDetails", {
             issueId: issueId
         });
-                 alert(issueId);
 
-    }
+
+    };
+
+
 
     $scope.location = function() {
 
@@ -162,10 +141,12 @@ mapApp.controller("MapController", function($log, $scope, IssueService, $statePa
             $scope.mapConfig.markers.push({
                 lat: data.coords.latitude,
                 lng: data.coords.longitude,
+                opacity: 1,
                 icon: {
                     iconUrl: '../img/redicon.png',
                     iconSize: [30, 40]
                 },
+                id: "me"
             });
         }, function(error) {
             $log.error("Could not get location: " + error);
@@ -178,6 +159,62 @@ mapApp.controller("MapController", function($log, $scope, IssueService, $statePa
         });
 
     };
+
+    $scope.addIssue = function() {
+
+        // for (var i = 0; i < $scope.mapConfig.markers.length; i++) {
+
+        //     $scope.mapConfig.markers[i].opacity = 0 ;
+
+        // }
+
+        geolocation.getLocation().then(function(data) {
+            $scope.mapConfig.center.lat = data.coords.latitude;
+            $scope.mapConfig.center.lng = data.coords.longitude;
+            $scope.mapConfig.center.zoom = 14;
+            $scope.mapConfig.markers.push({
+                lat: data.coords.latitude,
+                lng: data.coords.longitude,
+                opacity: 1,
+                icon: {
+                    iconUrl: '../img/redicon.png',
+                    iconSize: [30, 40]
+                },
+                id: "me"
+            });
+        });
+
+
+        $scope.mapConfig.markers = [];
+
+            var cpt = 0;
+
+    $scope.$on("leafletDirectiveMap.click", function(event, args) {
+
+        if (cpt < 1) {
+
+            var leafEvent = args.leafletEvent;
+            $scope.mapConfig.markers.push({
+                lat: leafEvent.latlng.lat,
+                lng: leafEvent.latlng.lng,
+                draggable: true,
+                id: "new",
+                message: "Hey, drag me if you want",
+
+            });
+            cpt++;
+
+        }
+
+
+
+    });
+
+$rootScope.newmarkers = $scope.mapConfig.markers;
+
+    };
+
+
 
 
 
@@ -199,7 +236,7 @@ mapApp.factory("IssueService", function($http, apiUrl) {
             $http.get(apiUrl + "/issues/" + issueId).success(function(data) {
                 alert(issue);
                 issue = data;
-                callback(null,issue);
+                callback(null, issue);
             }).error(function(error) {
                 callback(error);
             });

@@ -4,9 +4,20 @@
   </ion-nav-buttons>
   <ion-content scroll='false'>
     <h1>Here the map with issues</h1>
+       <i id="addIssue" ng-click="addIssue()" class="ion-plus leaflet-control"></i>
+ <!--    <input type="range" min="0" max="1" step="0.01" ng-model="mapConfig.markers[9].opacity" />
+    <textarea>{{mapConfig.markers[9].opacity}}</textarea> -->
+
+    <i id="loc" ui-sref="tab.newIssue" class="ion-checkmark-circled"></i>
+
+
+
     <leaflet defaults="mapDefaults" center="mapConfig.center" markers="mapConfig.markers" event-broadcast="events" data-tap-disabled="true" height='100%'>
 
-    <i  id="loc" ng-click="location()" class="ion-android-locate leaflet-control"></i>
+    <i id="loc" ng-click="location()" class="ion-android-locate leaflet-control"></i>
+
+
+
 
 
 

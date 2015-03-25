@@ -6,13 +6,13 @@ newIssueApp.config(function($compileProvider) {
 
 });
 
-newIssueApp.controller('NewIssueCtrl', function($scope,$state,	IssueTypeService, $http, qimgUrl, qimgToken,CameraService) {
+newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issue, IssueTypeService, $http, $log, qimgUrl, qimgToken, CameraService) {
+
+	$rootScope.newmarkers = {}; // pas oublier de l'enlever!!!
+	$scope.newIssue = {};
 
 	$scope.$on('$ionicView.beforeEnter', function() {
 
-
-
-		$scope.newIssue = {};
 
 
 		IssueTypeService.getIssuesType(function(error, issuesTypes) {
@@ -21,40 +21,52 @@ newIssueApp.controller('NewIssueCtrl', function($scope,$state,	IssueTypeService,
 			} else {
 
 				$scope.issueTypes = issuesTypes;
-				$scope.newIssue.type = "";
+				$scope.newIssue.issueTypeId = "";
+
 
 			}
 		});
 	});
 
-	$scope.saveIssue = function() {
 
-		var newIssue = $scope.newIssue;
 
-		Issue.post(callback, newissue);
+	for (var i = 0; i < $rootScope.newmarkers.length; i++) {
 
-		var callback = function(error, issue) {
-			if (error) {
-				$scope.error = error;
-			} else {
+		if ($rootScope.newmarkers[i].id === "new") {
 
-			$state.go("tab.issueMapId", {
-			issueId: issue.id
-		});
-
-		}
+			$scope.newIssue.lat = $rootScope.newmarkers[i].lat;
+			$scope.newIssue.lng = $rootScope.newmarkers[i].lng;
 
 		};
 
 	};
 
-	$scope.addMarker = function(){
 
-		$state.go("tab.issueMapId", {
-		addMarker: 1
 
-	});
-}
+	$scope.saveIssue = function() {
+
+		$log.debug($scope.newIssue);
+		$log.debug($rootScope.tags);
+
+
+		//	var newIssue = $scope.newIssue;
+
+		// 		var callback = function(error, issue) {
+		// 	if (error) {
+		// 		$scope.error = error;
+		// 	} else {
+
+		// 		$state.go("tab.issueMapId", {
+		// 			issueId: issue.id
+		// 		});
+
+		// 	}
+
+		// };
+
+		// Issue.post(callback, newIssue);
+
+	};
 
 
 
@@ -97,20 +109,43 @@ newIssueApp.controller('NewIssueCtrl', function($scope,$state,	IssueTypeService,
 
 });
 
+newIssueApp.controller('ItemsController', function($scope,$rootScope, tags,$log) {
+	$rootScope.tags = tags;
+
+	$scope.deleteTag = function(index) {
+		tags.data.splice(index, 1);
+	}
+	$scope.addTag = function(index) {
+
+		tags.data.push(
+			'"'+$scope.newTagName+'"'
+		);
+		$scope.newTagName = "";
+
+	}
+
+});
+
+
+newIssueApp.factory("tags", function() {
+	var tags = {};
+	tags.data = [];
+	return tags;
+});
 
 newIssueApp.factory("Issue", function($http, apiUrl) {
 	return {
-		postIssue: function(callback, newIssue) {
+		post: function(callback, newIssue) {
+
 
 			$http.post(apiUrl + "/issues", {
 
 
-			  "description": "Integer at metus vitae erat porta pellentesque.",
-			  "lng": "6.651479812689227",
-			  "lat": "46.77227088657382",
-			  "imageUrl": "http://www.somewhere.localhost.localdomain",
-			  "issueTypeId": "54d8ae183fd30364605c81b1"
-
+				"description": newIssue.desc,
+				"lng": newIssue.lng,
+				"lat": newIssue.lat,
+				"imageUrl": "http://frc.ch/wp-content/uploads/2011/07/ete.jpg",
+				"issueTypeId": newIssue.issueTypeId
 
 
 
@@ -142,6 +177,27 @@ newIssueApp.factory("IssueTypeService", function($http, apiUrl) {
 
 });
 
+newIssueApp.factory("IssueTag", function($http, apiUrl) {
+	return {
+		posttag: function(callback, issueId, tag) {
+
+			$http.post(apiUrl + "/issues/" + issueId + "/actions", {
+				"type": "addTags",
+				"payload": {
+					tags
+				}
+			}).success(function(data) {
+				issue = data;
+
+				callback(null, issue);
+			}).error(function(error) {
+				callback(error);
+			});
+		}
+
+	}
+});
+
 
 
 newIssueApp.factory('CameraService', ['$q', function($q) {
@@ -162,5 +218,3 @@ newIssueApp.factory('CameraService', ['$q', function($q) {
 	};
 
 }]);
-
-
