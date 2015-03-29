@@ -8,6 +8,10 @@ newIssueApp.config(function($compileProvider) {
 
 newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issue, IssueTypeService, $http, $log, qimgUrl, qimgToken, CameraService) {
 
+	/// A ENLLLEVERRRRRRRRRRRRRRRRRRRRRRRRRRRR UNE FOIS QU'ON A FINI DE METTRE EN PAGE NEWISSUe
+	$rootScope.newmarkers = [];
+	////////////////////////////////////////////////////////////////////////
+
 
 	$scope.newIssue = {};
 
