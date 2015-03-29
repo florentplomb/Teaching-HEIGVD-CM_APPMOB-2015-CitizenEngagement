@@ -20,6 +20,11 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
         tileLayer: mapboxTileLayer
     };
 
+    $scope.custom = true;
+
+
+
+
     $scope.$on('$ionicView.beforeEnter', function() {
 
         $scope.mapConfig.center = locYverdon
@@ -162,6 +167,8 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
 
     $scope.addIssue = function() {
 
+           $scope.custom = $scope.custom === false ? true : false;
+
         // for (var i = 0; i < $scope.mapConfig.markers.length; i++) {
 
         //     $scope.mapConfig.markers[i].opacity = 0 ;
@@ -187,34 +194,32 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
 
         $scope.mapConfig.markers = [];
 
-            var cpt = 0;
+        var cpt = 0;
 
-    $scope.$on("leafletDirectiveMap.click", function(event, args) {
+        $scope.$on("leafletDirectiveMap.click", function(event, args) {
 
-        if (cpt < 1) {
+            if (cpt < 1) {
 
-            var leafEvent = args.leafletEvent;
-            $scope.mapConfig.markers.push({
-                lat: leafEvent.latlng.lat,
-                lng: leafEvent.latlng.lng,
-                draggable: true,
-                id: "new",
-                message: "Hey, drag me if you want",
+                var leafEvent = args.leafletEvent;
+                $scope.mapConfig.markers.push({
+                    lat: leafEvent.latlng.lat,
+                    lng: leafEvent.latlng.lng,
+                    draggable: true,
+                    id: "new",
+                    message: "Hey, drag me if you want",
 
-            });
-            cpt++;
+                });
+                cpt++;
 
-        }
+            }
 
 
 
-    });
+        });
 
-$rootScope.newmarkers = $scope.mapConfig.markers;
+        $rootScope.newmarkers = $scope.mapConfig.markers;
 
     };
-
-
 
 
 

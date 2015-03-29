@@ -8,8 +8,9 @@ newIssueApp.config(function($compileProvider) {
 
 newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issue, IssueTypeService, $http, $log, qimgUrl, qimgToken, CameraService) {
 
-	$rootScope.newmarkers = {}; // pas oublier de l'enlever!!!
+
 	$scope.newIssue = {};
+
 
 	$scope.$on('$ionicView.beforeEnter', function() {
 
@@ -41,7 +42,39 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 
 	};
 
+	var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + "cleliapanchaud.kajpf86n";
+	mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}.png?access_token=" + "pk.eyJ1IjoiY2xlbGlhcGFuY2hhdWQiLCJhIjoiM2hMOEVXYyJ9.olp7FrLzmzSadE07IY8OMQ";
+	$scope.mapDefaults = {
+		tileLayer: mapboxTileLayer,
+		zoomControl: false
+	};
 
+
+
+	$scope.mapConfig = {};
+	$scope.mapConfig.markers = [];
+	$scope.mapConfig.center = {};
+	$scope.mapConfig.center = {
+		lat: $scope.newIssue.lat,
+		lng: $scope.newIssue.lng,
+		zoom: 17
+	}
+	$scope.mapConfig.markers.push({
+
+
+			id: "new",
+			 focus: true,
+		lat: $scope.newIssue.lat,
+		lng: $scope.newIssue.lng,
+		draggable: true,
+		message: "Hey, drag me if you want"
+
+
+
+
+	});
+
+$log.debug($scope.mapConfig.markers);
 
 	$scope.saveIssue = function() {
 
@@ -72,44 +105,45 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 
 	$scope.getPhoto = function() {
 
-		CameraService.getPicture({
-			quality: 75,
-			targetWidth: 320,
-			targetHeight: 320,
-			saveToPhotoAlbum: false,
-			destinationType: navigator.camera.DestinationType.DATA_URL
-		}).then(function(imageData) {
+		// 	CameraService.getPicture({
+		// 		quality: 75,
+		// 		targetWidth: 320,
+		// 		targetHeight: 320,
+		// 		saveToPhotoAlbum: false,
+		// 		destinationType: navigator.camera.DestinationType.DATA_URL
+		// 	}).then(function(imageData) {
 
-			$http({
-				method: "post",
-				url: qimgUrl + "/images",
-				headers: {
-					"Content-type": "application/json",
-					"Authorization": "Bearer " + qimgToken
-				},
-				data: {
-					data: imageData
-				}
-			}).success(function(data) {
+		// 		$http({
+		// 			method: "post",
+		// 			url: qimgUrl + "/images",
+		// 			headers: {
+		// 				"Content-type": "application/json",
+		// 				"Authorization": "Bearer " + qimgToken
+		// 			},
+		// 			data: {
+		// 				data: imageData
+		// 			}
+		// 		}).success(function(data) {
 
-				var imageUrl = data.url;
-				$scope.newIssue.photo = imageUrl;
+		// 			var imageUrl = data.url;
+		// 		//	$scope.newIssue.photo = imageUrl;
 
-			});
-		}, function(err) {
-			alert("erorr" + err);
+		// 		});
+		// 	}, function(err) {
+		// 		alert("erorr" + err);
 
-			$scope.error = err;
+		// 		$scope.error = err;
 
 
-		});
+		// 	});
+		$scope.newIssue.photo = "http://frc.ch/wp-content/uploads/2011/07/ete.jpg";
 	};
 
 
 
 });
 
-newIssueApp.controller('ItemsController', function($scope,$rootScope, tags,$log) {
+newIssueApp.controller('TagsController', function($scope, $rootScope, tags, $log) {
 	$rootScope.tags = tags;
 
 	$scope.deleteTag = function(index) {
@@ -118,7 +152,7 @@ newIssueApp.controller('ItemsController', function($scope,$rootScope, tags,$log)
 	$scope.addTag = function(index) {
 
 		tags.data.push(
-			'"'+$scope.newTagName+'"'
+			$scope.newTagName
 		);
 		$scope.newTagName = "";
 
@@ -144,7 +178,7 @@ newIssueApp.factory("Issue", function($http, apiUrl) {
 				"description": newIssue.desc,
 				"lng": newIssue.lng,
 				"lat": newIssue.lat,
-				"imageUrl": "http://frc.ch/wp-content/uploads/2011/07/ete.jpg",
+				"imageUrl": newIssue.photo,
 				"issueTypeId": newIssue.issueTypeId
 
 
@@ -183,9 +217,8 @@ newIssueApp.factory("IssueTag", function($http, apiUrl) {
 
 			$http.post(apiUrl + "/issues/" + issueId + "/actions", {
 				"type": "addTags",
-				"payload": {
-					tags
-				}
+				"payload": tag
+
 			}).success(function(data) {
 				issue = data;
 

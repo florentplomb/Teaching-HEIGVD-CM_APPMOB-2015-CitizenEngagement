@@ -5,7 +5,10 @@
   <ion-content padding="true">
 
     <h1>Post a new issue</h1>
+<div>
+     <leaflet defaults="mapDefaults"  center="mapConfig.center" markers="mapConfig.markers" data-tap-disabled="false" height='100px'></div>
 
+<div>
 <form name="issueForm">
 <div class="list" ng-hide="custom">
 
@@ -26,7 +29,7 @@
 
      <div  >
 
-    <ul ng-controller="ItemsController" id="tag" class="nav">
+    <ul ng-controller="TagsController" id="tag" class="nav">
         <input type="text" value="TagName" ng-model="newTagName"
         placeholder="name of new tag...">
             <button ng-disabled="!newTagName" ng-click="addTag()">Add Tag</button>
@@ -47,4 +50,4 @@
     </form>
   </ion-content>
 </ion-view>
-
+</div>

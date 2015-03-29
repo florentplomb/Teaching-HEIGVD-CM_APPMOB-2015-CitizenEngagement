@@ -3,24 +3,40 @@
     <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
   </ion-nav-buttons>
   <ion-content scroll='false'>
-    <h1>Here the map with issues</h1>
-       <i id="addIssue" ng-click="addIssue()" class="ion-plus leaflet-control"></i>
- <!--    <input type="range" min="0" max="1" step="0.01" ng-model="mapConfig.markers[9].opacity" />
-    <textarea>{{mapConfig.markers[9].opacity}}</textarea> -->
 
-    <i id="loc" ui-sref="tab.newIssue" class="ion-checkmark-circled"></i>
+<div id="mapWrapper">
 
+  <div id="mapissue">
 
 
     <leaflet defaults="mapDefaults" center="mapConfig.center" markers="mapConfig.markers" event-broadcast="events" data-tap-disabled="true" height='100%'>
 
-    <i id="loc" ng-click="location()" class="ion-android-locate leaflet-control"></i>
-
-
-
-
-
+    <i id="loc" ng-click="location()" class="ion-android-locate leaflet-control button button-light"></i>
 
     </leaflet>
+
+</div>
+
+<div ng-hide="!custom"   ng-click="addIssue()" class="buttonMap">
+
+<button id="b1map"  class="button button-full button-energized">
+  <i class="ion-plus"></i>Add issue
+</button>
+</div>
+
+
+<div ng-hide="custom"  ui-sref="tab.newIssue" classe="buttonMap">
+
+<button id="b2map" class="button button-full button-positive">
+  confirme
+</button>
+
+</div>
+
+
+</div>
+
   </ion-content>
+
+
 </ion-view>

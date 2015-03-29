@@ -1,5 +1,29 @@
 /* Empty. Add your own CSS if you like .*/
 
+
+#mapWrapper {
+	height: 100%;
+}
+
+#mapissue {
+	height: 90%;
+}
+
+.buttonMap {
+	height: 10%
+
+}
+
+#b1map.button.button-full{
+	margin: 0;
+}
+
+#b2map.button.button-full{
+	margin: 0;
+}
+
+
+
 .item{
 	  border-top-color: #3281ed;
 	  border-top-width: 3px;
@@ -25,12 +49,7 @@ a.colorred  {
 	padding: 0.2em;
 }
 
-#addIssue{
-	float: right;
-	font-size:3em;
-	padding: 0.2em;
 
-}
 
 #addIssue:hover{
 	color:blue;
