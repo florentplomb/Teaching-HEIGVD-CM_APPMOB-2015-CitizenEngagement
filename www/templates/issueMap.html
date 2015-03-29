@@ -6,8 +6,11 @@
 
 <div id="mapWrapper">
 
-  <div id="mapissue">
 
+  <div id="mapissue">
+    <button id="b1map" ng-show="notgeoloc" class="button button-full button-positive">
+Could not get location
+</button>
 
     <leaflet defaults="mapDefaults" center="mapConfig.center" markers="mapConfig.markers" event-broadcast="events" data-tap-disabled="true" height='100%'>
 
@@ -20,7 +23,7 @@
 <div ng-hide="!custom"   ng-click="addIssue()" class="buttonMap">
 
 <button id="b1map"  class="button button-full button-energized">
-  <i class="ion-plus"></i>Add issue
+  <i class="ion-plus"> </i> Add issue  <i class="ion-plus"> </i>
 </button>
 </div>
 

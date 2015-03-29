@@ -8,11 +8,13 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
         lng: 6.65,
         zoom: 14
     };
+    $scope.notgeoloc = false;
     $scope.events = {};
     $scope.mapConfig = {};
     $scope.mapConfig.markers = [];
     $scope.mapConfig.center = {};
     $rootScope.newmarkers = [];
+    var timeerror = 2000;
 
     var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + "cleliapanchaud.kajpf86n";
     mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}.png?access_token=" + "pk.eyJ1IjoiY2xlbGlhcGFuY2hhdWQiLCJhIjoiM2hMOEVXYyJ9.olp7FrLzmzSadE07IY8OMQ";
@@ -68,11 +70,35 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
                         if (error) {
                             $scope.error = error;
                         } else {
+
+
                             $scope.mapConfig.center = {
                                 lat: issue.lat,
                                 lng: issue.lng,
                                 zoom: 18
+
                             };
+
+                            for (var i = 0; i < $scope.mapConfig.markers.length; i++) {
+
+
+
+                                if ($scope.mapConfig.markers[i].id == issueId) {
+
+                                        $log.debug($scope.mapConfig.markers[i].icon);
+
+
+                                    $scope.mapConfig.markers[i].icon = {
+ icon: 'coffee',
+    markerColor: 'red'
+
+
+
+                                    };
+
+                                };
+                    }
+
 
 
 
@@ -81,19 +107,6 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
 
 
 
-                    for (var i = 0; i < $scope.mapConfig.markers.length; i++) {
-
-                        if ($scope.mapConfig.markers[i].issueId == issueId) {
-
-                            $scope.mapConfig.markers[i].icon = {
-                                iconUrl: '../img/green.png'
-
-                            };
-
-                        };
-
-
-                    }
 
                 }
 
@@ -111,6 +124,9 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
                         id: "me"
                     });
                 }, function(error) {
+
+
+
                     $log.error("Could not get location: " + error);
                     $scope.mapConfig.center = locYverdon;
 
@@ -154,7 +170,13 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
                 id: "me"
             });
         }, function(error) {
-            $log.error("Could not get location: " + error);
+
+            $scope.notgeoloc = true;
+
+            function notloc() {
+                $scope.notgeoloc = false;};
+            setTimeout(notloc, timeerror);
+
             $scope.mapConfig.center = {
                 lat: 46.7833,
                 lng: 6.65,
@@ -192,6 +214,7 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
         });
 
 
+
         $scope.mapConfig.markers = [];
 
         var cpt = 0;
@@ -204,6 +227,10 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
                 $scope.mapConfig.markers.push({
                     lat: leafEvent.latlng.lat,
                     lng: leafEvent.latlng.lng,
+                     icon: {
+                    iconUrl: '../img/orange.png'
+
+                    },
                     draggable: true,
                     id: "new",
                     message: "Hey, drag me if you want",
@@ -239,7 +266,7 @@ mapApp.factory("IssueService", function($http, apiUrl) {
         },
         getIssueId: function(callback, issueId) {
             $http.get(apiUrl + "/issues/" + issueId).success(function(data) {
-                alert(issue);
+
                 issue = data;
                 callback(null, issue);
             }).error(function(error) {
