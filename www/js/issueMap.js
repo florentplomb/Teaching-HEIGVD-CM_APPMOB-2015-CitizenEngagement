@@ -3,18 +3,37 @@ var mapApp = angular.module('citizen-engagement.issueMap', ["leaflet-directive",
 
 mapApp.controller("MapController", function($log, $scope, $rootScope, IssueService, $stateParams, mapboxMapId, mapboxAccessToken, geolocation, $state) {
 
-    var locYverdon = {
-        lat: 46.7833,
-        lng: 6.65,
-        zoom: 14
-    };
-    $scope.notgeoloc = false;
+
+    $scope.loc = {};
     $scope.events = {};
     $scope.mapConfig = {};
     $scope.mapConfig.markers = [];
     $scope.mapConfig.center = {};
     $rootScope.newmarkers = [];
-    var timeerror = 2000;
+    $scope.custom = true;
+
+    var locYverdon = {
+        lat: 46.7833,
+        lng: 6.65,
+        zoom: 14
+    };
+
+    var myPosition = {
+        iconUrl: '../img/redicon.png',
+        iconSize: [30, 46],
+        iconAnchor: [15, 46]
+    };
+    var myMarker = {
+        iconUrl: '../img/isscone.png',
+        iconSize: [45, 45],
+        iconAnchor: [30, 50]
+    };
+    var markerOrange = {
+        iconUrl: '../img/orange.png',
+        iconSize: [30, 46],
+        iconAnchor: [15, 46]
+    };
+    var timeError = 2000;
 
     var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + "cleliapanchaud.kajpf86n";
     mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}.png?access_token=" + "pk.eyJ1IjoiY2xlbGlhcGFuY2hhdWQiLCJhIjoiM2hMOEVXYyJ9.olp7FrLzmzSadE07IY8OMQ";
@@ -22,121 +41,74 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
         tileLayer: mapboxTileLayer
     };
 
-    $scope.custom = true;
+    geolocation.getLocation().then(function(data) {
+        $scope.loc = data
+        $scope.mapConfig.markers.push({
+            lat: data.coords.latitude,
+            lng: data.coords.longitude,
+            icon: {
+                iconUrl: '../img/redicon.png',
+                iconSize: [30, 40]
+            },
+            id: "me"
+        });
+    }, function(error) {
+
+        $log.error("Could not get location: " + error);
 
 
+    });
+
+    $scope.mapConfig.center = locYverdon
+
+    IssueService.getIssues(function(error, issues) {
+        if (error) {
+            $scope.error = error;
+        } else {
+
+            $scope.issues = issues;
 
 
-    $scope.$on('$ionicView.beforeEnter', function() {
-
-        $scope.mapConfig.center = locYverdon
-
-        IssueService.getIssues(function(error, issues) {
-            if (error) {
-                $scope.error = error;
-            } else {
-
-                $scope.issues = issues;
-
-                function createMarkerScope(issue) {
-                    return function() {
-                        var scope = $scope.$new();
-                        scope.issue = issue;
-                        return scope;
-
-                    };
-                }
-
-                for (var i = 0; i < issues.length; i++) {
-                    var issue = issues[i];
-                    $scope.mapConfig.markers.push({
-                        id: issue.id,
-                        lat: issue.lat,
-                        lng: issue.lng,
-                        opacity: 1,
-                        icon: {},
-                        message: '<div ng-click=goDetail("' + issue.id + '")><p>{{issue.description}}<a href="">Details</a></p></div>',
-                        getMessageScope: createMarkerScope(issue)
-
-                    });
-
-                }
-
-                if ($stateParams.issueId) {
-
-                    var issueId = $stateParams.issueId;
-
-                    IssueService.getIssueId(function(error, issue) {
-                        if (error) {
-                            $scope.error = error;
-                        } else {
-
-
-                            $scope.mapConfig.center = {
-                                lat: issue.lat,
-                                lng: issue.lng,
-                                zoom: 18
-
-                            };
-
-                            for (var i = 0; i < $scope.mapConfig.markers.length; i++) {
-
-
-
-                                if ($scope.mapConfig.markers[i].id == issueId) {
-
-                                        $log.debug($scope.mapConfig.markers[i].icon);
-
-
-                                    $scope.mapConfig.markers[i].icon = {
- icon: 'coffee',
-    markerColor: 'red'
-
-
-
-                                    };
-
-                                };
-                    }
-
-
-
-
-                        }
-                    }, issueId);
-
-
-
-
-                }
-
-                geolocation.getLocation().then(function(data) {
-                    $scope.mapConfig.center.lat = data.coords.latitude;
-                    $scope.mapConfig.center.lng = data.coords.longitude;
-                    $scope.mapConfig.center.zoom = 14;
-                    $scope.mapConfig.markers.push({
-                        lat: data.coords.latitude,
-                        lng: data.coords.longitude,
-                        icon: {
-                            iconUrl: '../img/redicon.png',
-                            iconSize: [30, 40]
-                        },
-                        id: "me"
-                    });
-                }, function(error) {
-
-
-
-                    $log.error("Could not get location: " + error);
-                    $scope.mapConfig.center = locYverdon;
-
+            for (var i in issues) {
+                var issue = issues[i];
+                $scope.mapConfig.markers.push({
+                    lat: parseFloat(issue.lat),
+                    lng: parseFloat(issue.lng),
+                    id: issue.id,
+                    message: '<div ng-click=goDetail("' + issue.id + '")><p>{{issue.description}}<a href="">Details</a></p></div>',
                 });
 
+            }
+        }
 
+
+        if ($stateParams.issueId) {
+
+            var issueId = $stateParams.issueId;
+
+
+            function find(array, attr, value) {
+
+                for (var i = 0; i < array.length; i++) {
+
+                    if (array[i].id === value) {
+                        return array[i];
+                    }
+
+                }
 
             }
 
-        });
+            markers = $scope.mapConfig.markers;
+            var markersFocus = find(markers, "id", issueId);
+
+            markersFocus.icon = myMarker;
+            $scope.mapConfig.center = {
+                lat: markersFocus.lat,
+                lng: markersFocus.lng,
+                zoom: 18
+            }
+        }
 
     });
 
@@ -155,63 +127,29 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
 
     $scope.location = function() {
 
-        geolocation.getLocation().then(function(data) {
-            $scope.mapConfig.center.lat = data.coords.latitude;
-            $scope.mapConfig.center.lng = data.coords.longitude;
+
+            $scope.mapConfig.center.lat =  $scope.loc.coords.latitude;
+            $scope.mapConfig.center.lng =  $scope.loc.coords.longitude;
             $scope.mapConfig.center.zoom = 14;
-            $scope.mapConfig.markers.push({
-                lat: data.coords.latitude,
-                lng: data.coords.longitude,
-                opacity: 1,
-                icon: {
-                    iconUrl: '../img/redicon.png',
-                    iconSize: [30, 40]
-                },
-                id: "me"
-            });
-        }, function(error) {
 
-            $scope.notgeoloc = true;
 
-            function notloc() {
-                $scope.notgeoloc = false;};
-            setTimeout(notloc, timeerror);
-
-            $scope.mapConfig.center = {
-                lat: 46.7833,
-                lng: 6.65,
-                zoom: 14
-            };
-
-        });
 
     };
 
     $scope.addIssue = function() {
 
-           $scope.custom = $scope.custom === false ? true : false;
+        $scope.custom = $scope.custom === false ? true : false;
 
-        // for (var i = 0; i < $scope.mapConfig.markers.length; i++) {
+        console.log($scope.mapConfig.markers);
 
-        //     $scope.mapConfig.markers[i].opacity = 0 ;
 
-        // }
+ for (var i = 0; i < $scope.mapConfig.markers.length; i++) {
 
-        geolocation.getLocation().then(function(data) {
-            $scope.mapConfig.center.lat = data.coords.latitude;
-            $scope.mapConfig.center.lng = data.coords.longitude;
-            $scope.mapConfig.center.zoom = 14;
-            $scope.mapConfig.markers.push({
-                lat: data.coords.latitude,
-                lng: data.coords.longitude,
-                opacity: 1,
-                icon: {
-                    iconUrl: '../img/redicon.png',
-                    iconSize: [30, 40]
-                },
-                id: "me"
-            });
-        });
+
+            $scope.mapConfig.markers[i].opacity = 1 ;
+              console.log($scope.mapConfig.markers[i]);
+
+        }
 
 
 
@@ -227,8 +165,8 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
                 $scope.mapConfig.markers.push({
                     lat: leafEvent.latlng.lat,
                     lng: leafEvent.latlng.lng,
-                     icon: {
-                    iconUrl: '../img/orange.png'
+                    icon: {
+                        iconUrl: '../img/orange.png'
 
                     },
                     draggable: true,

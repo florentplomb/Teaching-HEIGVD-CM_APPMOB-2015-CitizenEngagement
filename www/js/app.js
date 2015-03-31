@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citizen-engagement.constants',
-  'citizen-engagement.issueList', 'citizen-engagement.newIssue', 'citizen-engagement.issueMap', 'citizen-engagement.issueDetails'
+  'citizen-engagement.issueList', 'citizen-engagement.newIssue', 'citizen-engagement.issueMap','citizen-engagement.nav',  'citizen-engagement.issueDetails'
 ])
 
 
