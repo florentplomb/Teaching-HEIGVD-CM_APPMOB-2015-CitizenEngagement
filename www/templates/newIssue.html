@@ -44,7 +44,7 @@
 
 
       <button ng-click="getPhoto()" class="button button-block block-primary">Take Photo</button>
-      <img ng-src="{{newIssue.photo}}" style="max-width: 100%">
+      <img ng-src="{{newIssue.photo}}" style="max-width: 30%">
 
        <button ng-click="saveIssue()" ng-disabled="issueForm.$invalid || newIssue.issueTypeId === '' " class="button button-block block-secondary">Save that issue</button>
     </form>

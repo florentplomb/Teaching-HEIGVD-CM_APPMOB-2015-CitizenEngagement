@@ -1,17 +1,18 @@
 var nav = angular.module('citizen-engagement.nav', [])
 
 
-nav.controller('NavCtrl', function($scope,$state,$stateParams) {
+nav.controller('NavCtrl', function($scope,$rootScope,$state,$stateParams) {
 
 
 $scope.goMap = function() {
 
 
-$state.transitionTo("tab.issueMap", $stateParams, {
+$state.go("tab.issueMap", $stateParams, {
     reload: true,
     inherit: false,
     notify: true
 });
+
 };
 
 $scope.goList = function() {

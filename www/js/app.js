@@ -64,7 +64,8 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
       views: {
         'tab-issueMap': {
           templateUrl: 'templates/issueMap.html',
-          controller: "MapController"
+          controller: "MapController",
+          cache: false
         }
       }
     })

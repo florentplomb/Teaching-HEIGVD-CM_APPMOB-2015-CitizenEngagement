@@ -4,6 +4,7 @@
   </ion-nav-buttons>
   <ion-content scroll='false'>
 
+
 <div id="mapWrapper">
 
 
@@ -27,11 +28,17 @@ Could not get location
 </button>
 </div>
 
-
-<div ng-hide="custom"  ui-sref="tab.newIssue" classe="buttonMap">
+<div ng-hide="declenche"  classe="buttonMap">
 
 <button id="b2map" class="button button-full button-positive">
-  confirme
+  Click on map to create an new issue
+</button>
+</div>
+
+<div  ui-sref="tab.newIssue" classe="buttonMap">
+
+<button id="b2map" class="button button-full button-positive">
+  Validate
 </button>
 
 </div>

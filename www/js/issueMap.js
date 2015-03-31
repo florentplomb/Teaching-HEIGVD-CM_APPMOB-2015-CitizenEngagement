@@ -7,10 +7,12 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
     $scope.loc = {};
     $scope.events = {};
     $scope.mapConfig = {};
+    console.log("he suis");
     $scope.mapConfig.markers = [];
     $scope.mapConfig.center = {};
     $rootScope.newmarkers = [];
     $scope.custom = true;
+    $scope.declenche = false;
 
     var locYverdon = {
         lat: 46.7833,
@@ -30,8 +32,8 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
     };
     var markerOrange = {
         iconUrl: '../img/orange.png',
-        iconSize: [30, 46],
-        iconAnchor: [15, 46]
+        iconSize: [25, 41],
+        iconAnchor: [11,15]
     };
     var timeError = 2000;
 
@@ -140,35 +142,27 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
 
         $scope.custom = $scope.custom === false ? true : false;
 
-        console.log($scope.mapConfig.markers);
 
-
- for (var i = 0; i < $scope.mapConfig.markers.length; i++) {
-
-
-            $scope.mapConfig.markers[i].opacity = 1 ;
-              console.log($scope.mapConfig.markers[i]);
-
-        }
-
-
-
-        $scope.mapConfig.markers = [];
+    //    $scope.mapConfig.markers = [];
 
         var cpt = 0;
 
         $scope.$on("leafletDirectiveMap.click", function(event, args) {
 
+
+             console.log($scope.declenche);
+
+
             if (cpt < 1) {
 
+                $scope.declenche = true;
+                $scope.custom = false;
+                console.log($scope.declenche);
                 var leafEvent = args.leafletEvent;
                 $scope.mapConfig.markers.push({
                     lat: leafEvent.latlng.lat,
                     lng: leafEvent.latlng.lng,
-                    icon: {
-                        iconUrl: '../img/orange.png'
-
-                    },
+                    icon: markerOrange,
                     draggable: true,
                     id: "new",
                     message: "Hey, drag me if you want",

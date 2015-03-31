@@ -8,7 +8,11 @@ newIssueApp.config(function($compileProvider) {
 
 newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issue, IssueTypeService, $http, $log, qimgUrl, qimgToken, CameraService) {
 
-
+	var markerOrange = {
+		iconUrl: '../img/orange.png',
+		iconSize: [25, 41],
+		iconAnchor: [11, 15]
+	};
 
 	$scope.newIssue = {};
 
@@ -63,12 +67,9 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 	$scope.mapConfig.markers.push({
 
 
-			id: "new",
-			icon: {
-                    iconUrl: '../img/orange.png'
-
-                    },
-			 focus: true,
+		id: "new",
+		icon: markerOrange,
+		focus: true,
 		lat: $scope.newIssue.lat,
 		lng: $scope.newIssue.lng,
 		draggable: true,
@@ -76,20 +77,19 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 
 
 
-
 	});
 
-$log.debug($scope.mapConfig.markers);
+	$log.debug($scope.mapConfig.markers);
 
 	$scope.saveIssue = function() {
 
-		// $log.debug($scope.newIssue);
-		// $log.debug($rootScope.tags);
+		$log.debug($scope.newIssue);
+		$log.debug($rootScope.tags);
 
 
-			var newIssue = $scope.newIssue;
+		var newIssue = $scope.newIssue;
 
-				var callback = function(error, issue) {
+		var callback = function(error, issue) {
 			if (error) {
 				$scope.error = error;
 			} else {
@@ -110,38 +110,38 @@ $log.debug($scope.mapConfig.markers);
 
 	$scope.getPhoto = function() {
 
-			CameraService.getPicture({
-				quality: 75,
-				targetWidth: 320,
-				targetHeight: 320,
-				saveToPhotoAlbum: false,
-				destinationType: navigator.camera.DestinationType.DATA_URL
-			}).then(function(imageData) {
+		// CameraService.getPicture({
+		// 	quality: 75,
+		// 	targetWidth: 320,
+		// 	targetHeight: 320,
+		// 	saveToPhotoAlbum: false,
+		// 	destinationType: navigator.camera.DestinationType.DATA_URL
+		// }).then(function(imageData) {
 
-				$http({
-					method: "post",
-					url: qimgUrl + "/images",
-					headers: {
-						"Content-type": "application/json",
-						"Authorization": "Bearer " + qimgToken
-					},
-					data: {
-						data: imageData
-					}
-				}).success(function(data) {
+		// 	$http({
+		// 		method: "post",
+		// 		url: qimgUrl + "/images",
+		// 		headers: {
+		// 			"Content-type": "application/json",
+		// 			"Authorization": "Bearer " + qimgToken
+		// 		},
+		// 		data: {
+		// 			data: imageData
+		// 		}
+		// 	}).success(function(data) {
 
-					var imageUrl = data.url;
-				//	$scope.newIssue.photo = imageUrl;
+		// 		var imageUrl = data.url;
+		// 		//	$scope.newIssue.photo = imageUrl;
 
-				});
-			}, function(err) {
-				alert("erorr" + err);
+		// 	});
+		// }, function(err) {
+		// 	alert("erorr" + err);
 
-				$scope.error = err;
+		// 	$scope.error = err;
 
 
-			});
-	//	$scope.newIssue.photo = "http://frc.ch/wp-content/uploads/2011/07/ete.jpg";
+		// });
+			$scope.newIssue.photo = "http://www.art-et-loisirs.com/2013/img/img179_7.jpg";
 	};
 
 
