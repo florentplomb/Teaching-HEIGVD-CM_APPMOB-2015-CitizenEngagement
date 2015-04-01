@@ -3,18 +3,7 @@ var mapApp = angular.module('citizen-engagement.issueMap', ["leaflet-directive",
 
 mapApp.controller("MapController", function($log, $scope, $rootScope, IssueService, $stateParams, mapboxMapId, mapboxAccessToken, geolocation, $state) {
 
-
-    $scope.loc = {};
-    $scope.events = {};
-    $scope.mapConfig = {};
-    console.log("he suis");
-    $scope.mapConfig.markers = [];
-    $scope.mapConfig.center = {};
-    $rootScope.newmarkers = [];
-    $scope.custom = true;
-    $scope.declenche = false;
-
-    var locYverdon = {
+      var locYverdon = {
         lat: 46.7833,
         lng: 6.65,
         zoom: 14
@@ -35,13 +24,29 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
         iconSize: [25, 41],
         iconAnchor: [11,15]
     };
-    var timeError = 2000;
 
+
+    $scope.loc = {};
+    $scope.events = {};
+    $scope.mapConfig = {};
+    $scope.mapConfig.markers = [];
+    $scope.mapConfig.center = {};
+    $rootScope.newmarkers = [];
+    $scope.custom = true;
+    $scope.declenche = false;
+    $scope.mapConfig.center = {};
     var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + "cleliapanchaud.kajpf86n";
     mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}.png?access_token=" + "pk.eyJ1IjoiY2xlbGlhcGFuY2hhdWQiLCJhIjoiM2hMOEVXYyJ9.olp7FrLzmzSadE07IY8OMQ";
     $scope.mapDefaults = {
         tileLayer: mapboxTileLayer
     };
+
+    $scope.$on('$ionicView.beforeEnter', function(){
+
+ $scope.mapConfig.markers = [];
+
+
+
 
     geolocation.getLocation().then(function(data) {
         $scope.loc = data
@@ -113,7 +118,7 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
         }
 
     });
-
+ });
 
 
     $scope.goDetail = function(issueId) {
@@ -187,9 +192,19 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
 
 
 mapApp.factory("IssueService", function($http, apiUrl) {
-    return {
+
+         var config = {headers:  {
+        'x-pagination': '*'
+
+    }};
+
+   return {
+
+
+
+
         getIssues: function(callback) {
-            $http.get(apiUrl + "/issues").success(function(data) {
+            $http.get(apiUrl + "/issues",config).success(function(data) {
                 issues = data;
                 callback(null, issues);
             }).error(function(error) {
