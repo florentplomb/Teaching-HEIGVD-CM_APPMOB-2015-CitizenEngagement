@@ -42,8 +42,10 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
 
     $scope.$on('$ionicView.beforeEnter', function() {
 
-        $scope.mapConfig.markers = [];
-
+    $scope.mapConfig.markers = [];
+    $rootScope.newmarkers = [];
+    $scope.custom = true;
+    $scope.declenche = false;
 
 
         geolocation.getLocation().then(function(data) {
@@ -129,7 +131,7 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
     };
 
     $scope.goNew = function() {
-        alert("hey");
+        alert("J'aimerais aller sur la page NewIssue");
 
         $state.go("tab.newIssue");
     };
