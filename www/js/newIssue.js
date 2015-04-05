@@ -13,14 +13,8 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 		iconSize: [25, 41],
 		iconAnchor: [11, 15]
 	};
-
 	$scope.newIssue = {};
-
-
 	$scope.$on('$ionicView.beforeEnter', function() {
-
-
-
 		IssueTypeService.getIssuesType(function(error, issuesTypes) {
 			if (error) {
 				$scope.error = error;
@@ -28,34 +22,23 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 
 				$scope.issueTypes = issuesTypes;
 				$scope.newIssue.issueTypeId = "";
-
-
 			}
 		});
 	});
-
-
-
 	for (var i = 0; i < $rootScope.newmarkers.length; i++) {
 
 		if ($rootScope.newmarkers[i].id === "new") {
 
 			$scope.newIssue.lat = $rootScope.newmarkers[i].lat;
 			$scope.newIssue.lng = $rootScope.newmarkers[i].lng;
-
 		};
-
 	};
-
 	var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + "cleliapanchaud.kajpf86n";
 	mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}.png?access_token=" + "pk.eyJ1IjoiY2xlbGlhcGFuY2hhdWQiLCJhIjoiM2hMOEVXYyJ9.olp7FrLzmzSadE07IY8OMQ";
 	$scope.mapDefaults = {
 		tileLayer: mapboxTileLayer,
 		zoomControl: false
 	};
-
-
-
 	$scope.mapConfig = {};
 	$scope.mapConfig.markers = [];
 	$scope.mapConfig.center = {};
@@ -65,8 +48,6 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 		zoom: 17
 	}
 	$scope.mapConfig.markers.push({
-
-
 		id: "new",
 		icon: markerOrange,
 		focus: true,
@@ -74,21 +55,11 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 		lng: $scope.newIssue.lng,
 		draggable: true,
 		message: "Hey, drag me if you want"
-
-
-
 	});
-
-	$log.debug($scope.mapConfig.markers);
 
 	$scope.saveIssue = function() {
 
-		$log.debug($scope.newIssue);
-		$log.debug($rootScope.tags);
-
-
 		var newIssue = $scope.newIssue;
-
 		var callback = function(error, issue) {
 			if (error) {
 				$scope.error = error;
@@ -101,51 +72,39 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 			}
 
 		};
-
 		Issue.post(callback, newIssue);
-
 	};
-
-
 
 	$scope.getPhoto = function() {
 
-		// CameraService.getPicture({
-		// 	quality: 75,
-		// 	targetWidth: 320,
-		// 	targetHeight: 320,
-		// 	saveToPhotoAlbum: false,
-		// 	destinationType: navigator.camera.DestinationType.DATA_URL
-		// }).then(function(imageData) {
+		CameraService.getPicture({
+			quality: 75,
+			targetWidth: 320,
+			targetHeight: 320,
+			saveToPhotoAlbum: false,
+			destinationType: navigator.camera.DestinationType.DATA_URL
+		}).then(function(imageData) {
 
-		// 	$http({
-		// 		method: "post",
-		// 		url: qimgUrl + "/images",
-		// 		headers: {
-		// 			"Content-type": "application/json",
-		// 			"Authorization": "Bearer " + qimgToken
-		// 		},
-		// 		data: {
-		// 			data: imageData
-		// 		}
-		// 	}).success(function(data) {
+			$http({
+				method: "post",
+				url: qimgUrl + "/images",
+				headers: {
+					"Content-type": "application/json",
+					"Authorization": "Bearer " + qimgToken
+				},
+				data: {
+					data: imageData
+				}
+			}).success(function(data) {
+				$scope.newIssue.photo = imageUrl;
+			});
+		}, function(err) {
+			alert("erorr" + err);
 
-		// 		var imageUrl = data.url;
-		// 		//	$scope.newIssue.photo = imageUrl;
+			$scope.error = err;
+		});
 
-		// 	});
-		// }, function(err) {
-		// 	alert("erorr" + err);
-
-		// 	$scope.error = err;
-
-
-		// });
-			$scope.newIssue.photo = "http://www.art-et-loisirs.com/2013/img/img179_7.jpg";
 	};
-
-
-
 });
 
 newIssueApp.controller('TagsController', function($scope, $rootScope, tags, $log) {
@@ -243,7 +202,6 @@ newIssueApp.factory('CameraService', ['$q', function($q) {
 	return {
 		getPicture: function(options) {
 			var q = $q.defer();
-
 			navigator.camera.getPicture(function(result) {
 				// Do any magic you need
 				q.resolve(result);

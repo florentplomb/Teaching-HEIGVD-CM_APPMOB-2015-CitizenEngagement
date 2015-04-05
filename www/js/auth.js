@@ -7,7 +7,7 @@ angular.module('citizen-engagement.auth', ['angular-storage'])
 
       setUser: function(user) {
         service.currentUserId = user.userId;
-        store.set('currentUserId', user.userId); // stock userid la je pourrais rajouter se role 
+        store.set('currentUserId', user.userId); // stock userid la je pourrais rajouter se role
       },
 
       unsetUser: function() {
@@ -76,7 +76,7 @@ angular.module('citizen-engagement.auth', ['angular-storage'])
         });
 
         // Go to the issue creation tab.
-        $state.go('tab.newIssue');
+        $state.go('tab.issueMap');
 
       }).error(function() {
 

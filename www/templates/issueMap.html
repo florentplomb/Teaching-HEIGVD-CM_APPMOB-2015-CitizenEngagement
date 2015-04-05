@@ -1,52 +1,32 @@
 <ion-view view-title="Issue Map" ng-controller="MapController">
-  <ion-nav-buttons side="secondary">
-    <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
-  </ion-nav-buttons>
-  <ion-content scroll='false'>
-
-
+<ion-nav-buttons side="secondary">
+<button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
+</ion-nav-buttons>
+<ion-content scroll='false'>
 <div id="mapWrapper">
-
-
   <div id="mapissue">
     <button id="b1map" ng-show="notgeoloc" class="button button-full button-positive">
-Could not get location
-</button>
-
+      Could not get location
+    </button>
     <leaflet defaults="mapDefaults" center="mapConfig.center" markers="mapConfig.markers" event-broadcast="events" data-tap-disabled="true" height='100%'>
-
-    <i id="loc" ng-click="location()" class="ion-android-locate leaflet-control button button-light"></i>
-
+      <i id="loc" ng-click="location()" class="ion-android-locate leaflet-control button button-light"></i>
     </leaflet>
-
+  </div>
+  <div ng-hide="!custom"   ng-click="addIssue()" class="buttonMap">
+    <button id="b1map"  class="button button-full button-energized">
+      <i class="ion-plus"> </i> Add issue  <i class="ion-plus"> </i>
+    </button>
+  </div>
+  <div ng-hide="declenche"  classe="buttonMap">
+    <button id="b2map" class="button button-full button-positive">
+      Click on map to create an new issue
+    </button>
+  </div>
+  <div  ng-click="goNew()" classe="buttonMap">
+    <button id="b2map" class="button button-full button-positive">
+      Validate
+    </button>
+  </div>
 </div>
-
-<div ng-hide="!custom"   ng-click="addIssue()" class="buttonMap">
-
-<button id="b1map"  class="button button-full button-energized">
-  <i class="ion-plus"> </i> Add issue  <i class="ion-plus"> </i>
-</button>
-</div>
-
-<div ng-hide="declenche"  classe="buttonMap">
-
-<button id="b2map" class="button button-full button-positive">
-  Click on map to create an new issue
-</button>
-</div>
-
-<div  ui-sref="tab.newIssue" classe="buttonMap">
-
-<button id="b2map" class="button button-full button-positive">
-  Validate
-</button>
-
-</div>
-
-
-</div>
-
-  </ion-content>
-
-
+</ion-content>
 </ion-view>

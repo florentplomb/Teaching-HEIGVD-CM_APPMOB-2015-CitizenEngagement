@@ -1,57 +1,35 @@
 <ion-view view-title="Issue List" ng-controller="ListCtrl" >
-
-  <ion-nav-buttons side="primary">
-
-  <button class="button button clear icon ion-gear-a" ng-click="toggleCustom()"></button>
-  <button class="button icon ion-search" ng-click=""></button>
-
-
-  </ion-nav-buttons>
-
-  <ion-nav-buttons side="secondary">
-
-    <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log out</button>
-
-  </ion-nav-buttons>
-
-
-  <ion-content>
-
-
-<div class="list" ng-hide="custom">
-
-  <label class="item item-input item-select">
+<ion-nav-buttons side="primary">
+<button class="button button clear icon ion-gear-a" ng-click="toggleCustom()"></button>
+<button class="button icon ion-search" ng-click=""></button>
+</ion-nav-buttons>
+<ion-nav-buttons side="secondary">
+<button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log out</button>
+</ion-nav-buttons>
+<ion-content>
+<div  ng-hide="custom">
+  <label id="selFilter" class="item item-input item-select">
     <div class="input-label">
       Filters
-    </div> 
+    </div>
     <select  ng-model="filter.type">
       <option ng-repeat="type in issueTypes" value="{{type.id}}">{{type.name}}</option>
     </select>
   </label>
-
 </div>
-
-
-
-
-
-
-
-
-<div class="card item item-thumbnail-left topcolor"  ng-click="goToIssueDetails(issue)" ng-repeat="issue in issues" ng-show="issue.issueType.id == filter.type || custom == true"   class="item-thumbnail-left" >
- 
+<div>
+  <label id="selSearch" class="item item-input">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input ng-model="query[queryBy]" type="search" placeholder="Exemple : Created, broken ">
+  </label>
+</div>
+<div class="card item item-thumbnail-left topcolor"  ng-click="goToIssueDetails(issue)" ng-repeat="issue in issues | filter:query |orderBy: '-createdOn'" ng-show="issue.issueType.id == filter.type || custom == true"   class="item-thumbnail-left" >
   <img ng-src="{{issue.imageUrl}}">
-
-    
-     <h3>{{issue.description}}</h3>
-
-    <p> {{issue.state}}</p>
-
-
- 
+  <h3>{{issue.description}}</h3>
+  <p> {{issue.state}}</p>
+  <p style="display:inline; font-size: 0.6em;" ng-repeat="tag in issue.tags"> {{tag}}</p>
+  <p style="font-family: italic; font-size:0.7em;"> {{issue.createdOn | date:'shortDate'}}</p>
 </div>
-
-
-  </ion-content>
+</ion-content>
 </ion-view>
 

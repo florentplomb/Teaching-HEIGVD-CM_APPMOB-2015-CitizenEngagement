@@ -1,58 +1,36 @@
 <ion-view view-title="Issue Details" ng-controller="DetailCtrl">
-      
-      <ion-side-menus>
-        <!-- Center content -->
-        <ion-side-menu-content>
+ <ion-nav-buttons side="secondary">
+    <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log out</button>
+  </ion-nav-buttons>
           <ion-content>
             <div class="list card">
-
                 <div class="item">
                     <h2>{{issue.issueType.name}}</h2>
                     <p>{{issue.state}}</p>
                 </div>
-
                 <div class="item item-body">
-                  <!--  <img class="full-image" src="{{issue.imageUrl}}"> -->
+                    <img class="full-image" src="{{issue.imageUrl}}">
                   <p>{{issue.description}}</p>
                   <p>
                     <a href="" ng-class="{colorred: !custom}" class="subdued" ng-click="toggleCustom()">
                       <i class="icon ion-chatbox"></i> {{issue.comments.length}} comments</a>
                     <a href="" class="subdued" ng-click="goToIssueMap()">
                     <i class="icon ion-android-globe iconsize"></i> See on map</a>
+                    <a href="" class="subdued" ng-click="goToIssueMap()">
+                    <i id="author" class="icon ion-person iconsize"></i>  {{issue.owner.name}}</a>
                   </p>
                 </div>
-                              <!-- Right menu -->
-              <ion-side-menu side="right">
-              <p>Hello</p>
-
-              </ion-side-menu>
-</ion-side-menu-content>
-                </ion-side-menus>
             </div>
-
-
-
             <div ng-hide="custom">
-                <div class="card item topcolor comment"> <textarea ng-model="commentAdd.text" placeholder="Write here"></textarea> 
-                  <button class="send button button-small button-assertive" ng-hide="!commentAdd.text"  ng-click='postComment()'>Send </button> 
+                <div class="card item topcolor comment"> <textarea ng-model="commentAdd.text" placeholder="Write here"></textarea>
+                  <button class="send button button-small button-assertive" ng-hide="!commentAdd.text"  ng-click='postComment()'>Send </button>
                 </div>
-              
-            <!-- ng-click="postComment(textComment)" -->
-
             <div class="card item topcolor comment" ng-repeat="comment in issue.comments | orderBy: '-postedOn'"  class="item-thumbnail-left" >
-                
                  <h3>{{comment.author.name}}</h3>
-
                  <p>{{comment.text}}</p>
-
                  <p>{{comment.postedOn | date:'medium'}}</p>
             </div>
             </div>
         </ion-content>
-
-       
-
-
-
 </ion-view>
 
