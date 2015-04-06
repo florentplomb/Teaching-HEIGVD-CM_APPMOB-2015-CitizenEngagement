@@ -4,8 +4,7 @@
 </ion-nav-buttons>
 <ion-content padding="true">
 
-<h1>Post a new issue</h1>
-<div>
+<div id="newMap">
  <leaflet defaults="mapDefaults"  center="mapConfig.center" markers="mapConfig.markers" data-tap-disabled="false" height='100px'></div>
  <div>
     <form name="issueForm">
@@ -27,8 +26,8 @@
         <ul ng-controller="TagsController" id="tag" class="nav">
           <input type="text" value="TagName" ng-model="newTagName"
           placeholder="name of new tag...">
-          <button ng-disabled="!newTagName" ng-click="addTag()">Add Tag</button>
-          <li style="display:inline;" ng-repeat="tag in tags.data track by $index | limitTo: 3">
+          <button ng-disabled="!newTagName"  class="myButton" ng-click="addTag()">Add Tag</button>
+          <li style="display:inline; " ng-repeat="tag in tags.data track by $index | limitTo: 3">
             <span>{{tag}}</span>  <i ng-click="deleteTag($index)" class="ion-ios-close-outline"> </i>
           </li>
         </ul>

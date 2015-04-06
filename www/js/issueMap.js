@@ -1,6 +1,6 @@
 var mapApp = angular.module('citizen-engagement.issueMap', ["leaflet-directive", 'geolocation'])
 
-mapApp.controller("MapController", function($log, $scope, $rootScope, IssueService, $stateParams, mapboxMapId, mapboxAccessToken, geolocation, $state) {
+mapApp.controller("MapController", function($log, $scope, $rootScope, IssueService, $stateParams, leafletData, mapboxMapId, mapboxAccessToken, geolocation, $state) {
 
 
     var locYverdon = {
@@ -31,21 +31,34 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
     $scope.mapConfig.markers = [];
     $scope.mapConfig.center = {};
     $rootScope.newmarkers = [];
-    $scope.custom = true;
-    $scope.declenche = false;
+    $scope.custom = false;
+    $scope.declenche = true;
+    $scope.validate = true;
     $scope.mapConfig.center = {};
-    // var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + "cleliapanchaud.kajpf86n";
-    //mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}.png?access_token=" + "pk.eyJ1IjoiY2xlbGlhcGFuY2hhdWQiLCJhIjoiM2hMOEVXYyJ9.olp7FrLzmzSadE07IY8OMQ";
-    //    $scope.mapDefaults = {
-    //      tileLayer: mapboxTileLayer
-    //};
+    var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + "cleliapanchaud.kajpf86n";
+    mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}.png?access_token=" + "pk.eyJ1IjoiY2xlbGlhcGFuY2hhdWQiLCJhIjoiM2hMOEVXYyJ9.olp7FrLzmzSadE07IY8OMQ";
+    $scope.mapDefaults = {
+        tileLayer: mapboxTileLayer
+    };
+
+    leafletData.getMap().then(function(map) {
+        if (map._controlCorners.topright.childElementCount === 0) {
+            L.control.locate({
+                position: 'topright',
+                icon: 'fa fa-map-marker  fa-dot-circle-o', // class for icon, fa-location-arrow or fa-map-marker
+                iconLoading: 'fa fa-spinner fa-spin',
+
+            }).addTo(map);
+        }
+    });
 
     $scope.$on('$ionicView.beforeEnter', function() {
 
-    $scope.mapConfig.markers = [];
-    $rootScope.newmarkers = [];
-    $scope.custom = true;
-    $scope.declenche = false;
+        $scope.mapConfig.markers = [];
+        $rootScope.newmarkers = [];
+        $scope.custom = false;
+        $scope.declenche = true;
+        $scope.validate = true;
 
 
         geolocation.getLocation().then(function(data) {
@@ -79,7 +92,7 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
                         lat: parseFloat(issue.lat),
                         lng: parseFloat(issue.lng),
                         id: issue.id,
-                        message: '<p>{{issue.description}}</p><img src="{{issue.imageUrl}}" width="100px" /><a style="display:block;" id="popuplf button icon-right ion-android-arrow-dropright ng-click=goDetail(issue.id)">Details</a>',
+                        message: '<div ng-click="goDetail(issue.id)"><p>{{issue.description}}</p><img src="{{issue.imageUrl}}" width="100px" /><a style="display:block;" id="popuplf class="button icon-right ion-android-arrow-dropright">Details</a></div>',
                         getMessageScope: function() {
                             var scope = $scope.$new();
                             scope.issue = issue;
@@ -143,13 +156,14 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
     };
 
     $scope.addIssue = function() {
-
+         $scope.custom = $scope.declenche = false;
         $scope.custom = $scope.custom === false ? true : false;
         var cpt = 0;
         $scope.$on("leafletDirectiveMap.click", function(event, args) {
             if (cpt < 1) {
                 $scope.declenche = true;
-                $scope.custom = false;
+                $scope.custom = true;
+                $scope.validate = false;
                 console.log($scope.declenche);
                 var leafEvent = args.leafletEvent;
                 $scope.mapConfig.markers.push({

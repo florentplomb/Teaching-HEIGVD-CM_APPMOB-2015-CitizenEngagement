@@ -3,18 +3,9 @@ var list = angular.module('citizen-engagement.issueList', [])
 
 list.controller('ListCtrl', function($scope, IssueService, IssueTypeService, $state) {
 
+	$scope.$on('$ionicView.beforeEnter', function() {
 
-	$scope.goToIssueDetails = function(issue) {
-		$state.go("tab.issueDetails", {
-			issueId: issue.id
-		});
-	};
-	$scope.query = {};
-	$scope.queryBy = '$';
-
-	$scope.filter = {};
-
-	var callback = function(error, issues) {
+			var callback = function(error, issues) {
 		if (error) {
 			$scope.error = error;
 		} else {
@@ -33,7 +24,22 @@ list.controller('ListCtrl', function($scope, IssueService, IssueTypeService, $st
 			$scope.filter.type = issuesTypes[0].id;
 		}
 	});
+
+
+	});
+
+	$scope.query = {};
+	$scope.queryBy = '$';
+	$scope.filter = {};
 	$scope.custom = true;
+
+	$scope.goToIssueDetails = function(issue) {
+		$state.go("tab.issueDetails", {
+			issueId: issue.id
+		});
+	};
+
+
 	$scope.toggleCustom = function() {
 		$scope.custom = $scope.custom === false ? true : false;
 	};

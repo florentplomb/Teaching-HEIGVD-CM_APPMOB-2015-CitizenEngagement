@@ -14,7 +14,19 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 		iconAnchor: [11, 15]
 	};
 	$scope.newIssue = {};
+	$scope.mapConfig = {};
+	$scope.mapConfig.markers = [];
+	$scope.mapConfig.center = {};
+		var mapboxTileLayer = "http://api.tiles.mapbox.com/v4/" + "cleliapanchaud.kajpf86n";
+	mapboxTileLayer = mapboxTileLayer + "/{z}/{x}/{y}.png?access_token=" + "pk.eyJ1IjoiY2xlbGlhcGFuY2hhdWQiLCJhIjoiM2hMOEVXYyJ9.olp7FrLzmzSadE07IY8OMQ";
+	$scope.mapDefaults = {
+		tileLayer: mapboxTileLayer,
+		zoomControl: false
+	};
+
 	$scope.$on('$ionicView.beforeEnter', function() {
+			$scope.mapConfig.center = {};
+		$scope.newIssue = {};
 		IssueTypeService.getIssuesType(function(error, issuesTypes) {
 			if (error) {
 				$scope.error = error;
@@ -24,7 +36,7 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 				$scope.newIssue.issueTypeId = "";
 			}
 		});
-	});
+
 	for (var i = 0; i < $rootScope.newmarkers.length; i++) {
 
 		if ($rootScope.newmarkers[i].id === "new") {
@@ -55,6 +67,7 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 		lng: $scope.newIssue.lng,
 		draggable: true,
 		message: "Hey, drag me if you want"
+	});
 	});
 
 	$scope.saveIssue = function() {
@@ -96,7 +109,7 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 					data: imageData
 				}
 			}).success(function(data) {
-				$scope.newIssue.photo = imageUrl;
+				$scope.newIssue.photo = imageData;
 			});
 		}, function(err) {
 			alert("erorr" + err);

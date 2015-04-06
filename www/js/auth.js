@@ -41,7 +41,7 @@ angular.module('citizen-engagement.auth', ['angular-storage'])
      $scope.$on('$ionicView.beforeEnter', function() {
       // Initialize (or re-initialize) the user object.
       // The first name and last name will be automatically filled from the form thanks to AngularJS's two-way binding.
-      $scope.user = {};
+      $scope.user = {firstname : "f" , lastname: "f"};
     });
 
     $scope.register = function() {
