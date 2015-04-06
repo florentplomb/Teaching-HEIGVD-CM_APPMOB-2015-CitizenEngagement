@@ -1,6 +1,6 @@
 var mapApp = angular.module('citizen-engagement.issueMap', ["leaflet-directive", 'geolocation'])
 
-mapApp.controller("MapController", function($log, $scope, $rootScope, IssueService, $stateParams, leafletData, mapboxMapId, mapboxAccessToken, geolocation, $state) {
+mapApp.controller("MapController", function($log, $scope, $rootScope, IssueService,img,$ionicPlatform,$cordovaGeolocation, $stateParams, leafletData, mapboxMapId, mapboxAccessToken, geolocation, $state) {
 
 
     var locYverdon = {
@@ -10,17 +10,17 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
     };
 
     var myPosition = {
-        iconUrl: '../img/redicon.png',
-        iconSize: [30, 46],
-        iconAnchor: [15, 46]
+        iconUrl: img+"/redicon.png",
+        iconSize: [34, 39],
+        iconAnchor: [14, 40]
     };
     var myMarker = {
-        iconUrl: '../img/isscone.png',
-        iconSize: [45, 45],
-        iconAnchor: [30, 50]
+        iconUrl: img+'/green.png',
+        iconSize: [25, 41],
+        iconAnchor: [11, 15]
     };
     var markerOrange = {
-        iconUrl: '../img/orange.png',
+        iconUrl: img+'/orange.png',
         iconSize: [25, 41],
         iconAnchor: [11, 15]
     };
@@ -59,23 +59,6 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
         $scope.custom = false;
         $scope.declenche = true;
         $scope.validate = true;
-
-
-        geolocation.getLocation().then(function(data) {
-            $scope.loc = data
-            $scope.mapConfig.markers.push({
-                lat: data.coords.latitude,
-                lng: data.coords.longitude,
-                icon: {
-                    iconUrl: '../img/redicon.png',
-                    iconSize: [30, 40]
-                },
-                id: "me"
-            });
-        }, function(error) {
-
-            $log.error("Could not get location: " + error);
-        });
 
         $scope.mapConfig.center = locYverdon
         IssueService.getIssues(function(error, issues) {
@@ -179,7 +162,33 @@ mapApp.controller("MapController", function($log, $scope, $rootScope, IssueServi
         });
         $rootScope.newmarkers = $scope.mapConfig.markers;
     };
+
+$ionicPlatform.ready(function()
+{
+
+  var posOptions = {timeout: 10000, enableHighAccuracy: false};
+  $cordovaGeolocation
+    .getCurrentPosition(posOptions)
+    .then(function (position) {
+     var markertop = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+        icon: myPosition
+    };
+    $scope.mapConfig.mapCenter = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+        zoom: 14
+    };
+     $scope.mapConfig.markers.push(markertop);
+    }, function(err) {
+      // error
+    });
+
 });
+
+});
+
 
 mapApp.factory("IssueService", function($http, apiUrl) {
 
@@ -213,3 +222,46 @@ mapApp.factory("IssueService", function($http, apiUrl) {
     };
 
 });
+
+mapApp.factory('$cordovaGeolocation', ['$q', function ($q) {
+
+    return {
+      getCurrentPosition: function (options) {
+        var q = $q.defer();
+
+        navigator.geolocation.getCurrentPosition(function (result) {
+          q.resolve(result);
+        }, function (err) {
+          q.reject(err);
+        }, options);
+
+        return q.promise;
+      },
+
+      watchPosition: function (options) {
+        var q = $q.defer();
+
+        var watchID = navigator.geolocation.watchPosition(function (result) {
+          q.notify(result);
+        }, function (err) {
+          q.reject(err);
+        }, options);
+
+        q.promise.cancel = function () {
+          navigator.geolocation.clearWatch(watchID);
+        };
+
+        q.promise.clearWatch = function (id) {
+          navigator.geolocation.clearWatch(id || watchID);
+        };
+
+        q.promise.watchID = watchID;
+
+        return q.promise;
+      },
+
+      clearWatch: function (watchID) {
+        return navigator.geolocation.clearWatch(watchID);
+      }
+    };
+  }]);

@@ -6,13 +6,13 @@ newIssueApp.config(function($compileProvider) {
 
 });
 
-newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issue, IssueTypeService, $http, $log, qimgUrl, qimgToken, CameraService) {
+newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope,img, $state, Issue, IssueTypeService, $http, $log, qimgUrl, qimgToken, CameraService) {
 
-	var markerOrange = {
-		iconUrl: '../img/orange.png',
-		iconSize: [25, 41],
-		iconAnchor: [11, 15]
-	};
+  var markerOrange = {
+        iconUrl: img+'/orange.png',
+        iconSize: [25, 41],
+        iconAnchor: [11, 15]
+    };
 	$scope.newIssue = {};
 	$scope.mapConfig = {};
 	$scope.mapConfig.markers = [];
@@ -109,7 +109,7 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 					data: imageData
 				}
 			}).success(function(data) {
-				$scope.newIssue.photo = imageData;
+				$scope.newIssue.photo = data.url;
 			});
 		}, function(err) {
 			alert("erorr" + err);

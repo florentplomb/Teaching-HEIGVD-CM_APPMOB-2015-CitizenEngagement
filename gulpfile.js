@@ -30,6 +30,7 @@ function saveConfig(environment) {
     .pipe(replace(/@mapboxAccessToken@/, config.mapboxAccessToken))
     .pipe(replace(/@qimgUrl@/, config.qimgUrl))
     .pipe(replace(/@qimgToken@/, config.qimgToken))
+    .pipe(replace(/@img@/, config.img))
 
 
 
