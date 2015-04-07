@@ -19,22 +19,21 @@
           </select>
         </label>
       </div>
-      <div class="card item" >
+      <div class="card item comment" >
         <textarea ng-model="newIssue.desc" required="required" placeholder="Please give more details about the issue..."></textarea>
       </div>
       <div>
-        <ul ng-controller="TagsController" id="tag" class="nav">
-          <input type="text" value="TagName" ng-model="newTagName"
-          placeholder="name of new tag...">
-          <button ng-disabled="!newTagName"  class="myButton" ng-click="addTag()">Add Tag</button>
+        <ul ng-controller="TagsController" id="tag" class="nav item">
+          <input type="text" value="TagName" ng-model="newTagName" placeholder=" Tag this issue ">
+          <button ng-disabled="!newTagName"  class="button button-block button-outline button-positive" ng-click="addTag()">Add Tag</button>
           <li style="display:inline; " ng-repeat="tag in tags.data track by $index | limitTo: 3">
             <span>{{tag}}</span>  <i ng-click="deleteTag($index)" class="ion-ios-close-outline"> </i>
           </li>
         </ul>
       </div>
-      <button ng-click="getPhoto()" class="button button-block block-primary">Take Photo</button>
+      <button ng-click="getPhoto()" class="button button-block button-outline button-positive block-primary">Take Photo</button>
       <img ng-src="{{newIssue.photo}}" style="max-width: 30%">
-      <button ng-click="saveIssue()" ng-disabled="issueForm.$invalid || newIssue.issueTypeId === '' " class="button button-block block-secondary">Save that issue</button>
+      <button ng-click="saveIssue()" ng-disabled="issueForm.$invalid || newIssue.issueTypeId === '' " class="button button-block button-positive block-secondary">Save that issue</button>
     </form>
   </ion-content>
 </ion-view>

@@ -20,6 +20,7 @@ height: 15%;
 
 #newMap{
 	margin-bottom: 1em;
+
 }
 
 
@@ -84,7 +85,8 @@ height: 15%;
 	  border-top-width: 3px;
 }
 .scroll{
-	background-color: #f5f8fb
+	background-color: #f5f8fb;
+	height: 100%;
 }
 
 a.colorred  {
