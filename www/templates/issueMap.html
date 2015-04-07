@@ -3,7 +3,7 @@
 <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
 </ion-nav-buttons>
 <ion-content scroll='false'>
-<div id="mapBox">
+
 <div id="map">
     <leaflet defaults="mapDefaults" center="mapConfig.center" markers="mapConfig.markers" event-broadcast="events" data-tap-disabled="true" height='100%'>
     </leaflet>
@@ -25,6 +25,10 @@
     </button>
   </div>
 </div>
-</div>
+  <div ng-click="location()" id="buttonPos">
+    <button id="locate"  class="ion-android-radio-button-on">
+    </button>
+  </div>
+
 </ion-content>
 </ion-view>

@@ -1,20 +1,27 @@
 
-#mapBox {
+
+#map {
 
 	height: 100%;
 
 }
+#buttonPos {
 
 
-#map {
-
-	height: 85%;
+     padding: 0;
+    position: absolute;
+    top: 18%;
+    left: 0.9em;
+    width: 0%;
 
 }
 
 #bouton {
 
-height: 15%;
+  position: relative;
+  top: -3em;
+  left: 0px;
+  width: 100%;
 
 }
 
@@ -47,7 +54,9 @@ height: 15%;
 	text-shadow:0px 1px 0px #3d768a;
 }
 
-
+.leaflet-container .leaflet-control-attribution{
+	visibility: hidden;
+}
 
 #popuplf{
 
@@ -100,10 +109,15 @@ a.colorred  {
 
 }
 
-#loc{
-	float: right;
-	font-size:3em;
-	padding: 0.2em;
+#locate{
+
+  background: transparent;
+  font-size: 2em;
+  padding: 0;
+  border: transparent;
+
+  margin: 0;
+  color: rgb(255, 0, 232);
 }
 
 
@@ -112,9 +126,7 @@ a.colorred  {
 	color:blue;
 }
 
-#loc:hover{
-	color:blue;
-}
+
 
 .iconsize{
 	font-size: 1.2em;

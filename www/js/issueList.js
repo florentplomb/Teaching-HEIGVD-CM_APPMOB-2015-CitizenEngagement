@@ -5,6 +5,7 @@ list.controller('ListCtrl', function($scope, IssueService, IssueTypeService, $st
 
 	$scope.$on('$ionicView.beforeEnter', function() {
 
+
 			var callback = function(error, issues) {
 		if (error) {
 			$scope.error = error;
@@ -25,7 +26,6 @@ list.controller('ListCtrl', function($scope, IssueService, IssueTypeService, $st
 		}
 	});
 
-
 	});
 
 	$scope.query = {};
@@ -38,6 +38,7 @@ list.controller('ListCtrl', function($scope, IssueService, IssueTypeService, $st
 			issueId: issue.id
 		});
 	};
+
 
 
 	$scope.toggleCustom = function() {
