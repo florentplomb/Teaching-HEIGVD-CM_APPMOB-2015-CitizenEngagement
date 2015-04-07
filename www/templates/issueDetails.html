@@ -23,7 +23,7 @@
             </div>
             <div ng-hide="custom">
                 <div class="card item topcolor comment"> <textarea ng-model="commentAdd.text" placeholder="Write here"></textarea>
-                  <button class="send button button-small button-positive" ng-hide="!commentAdd.text"  ng-click='postComment()'>Send </button>
+                  <button class="send button button-block button-outline button-positive" ng-hide="!commentAdd.text"  ng-click='postComment()'>Send </button>
                 </div>
             <div class="card item topcolor comment" ng-repeat="comment in issue.comments | orderBy: '-postedOn'"  class="item-thumbnail-left" >
                  <h3>{{comment.author.name}}</h3>
