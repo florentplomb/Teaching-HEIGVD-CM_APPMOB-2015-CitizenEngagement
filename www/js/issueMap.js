@@ -1,7 +1,7 @@
 var mapApp = angular.module('citizen-engagement.issueMap', ["leaflet-directive", 'ionic', 'geolocation'])
 
 
-mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScope, IssueService, $ionicPlatform, $cordovaGeolocation, $stateParams, leafletData, mapboxMapId, mapboxAccessToken, geolocation, $state) {
+mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScope, IssueService, $stateParams, leafletData, mapboxMapId, mapboxAccessToken, geolocation, $state) {
 
 
     var locYverdon = {
@@ -199,10 +199,6 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         $rootScope.newmarkers = $scope.mapConfig.markers;
     };
 
-    $ionicPlatform.ready(function() {
-
-
-    });
 
 });
 
