@@ -94,34 +94,34 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags
 
 	$scope.getPhoto = function() {
 
-	$scope.newIssue.photo = "http://p7.storage.canalblog.com/73/44/1065322/81327076_o.jpg"
-		// CameraService.getPicture({
-		// 	quality: 75,
-		// 	targetWidth: 320,
-		// 	targetHeight: 320,
-		// 	saveToPhotoAlbum: false,
-		// 	destinationType: navigator.camera.DestinationType.DATA_URL
-		// }).then(function(imageData) {
 
-		// 	$http({
-		// 		method: "post",
-		// 		url: qimgUrl + "/images",
-		// 		headers: {
-		// 			"Content-type": "application/json",
-		// 			"Authorization": "Bearer " + qimgToken
-		// 		},
-		// 		data: {
-		// 			data: imageData
-		// 		}
-		// 	}).success(function(data) {
-		// 		//$scope.newIssue.photo = data.url;
+		CameraService.getPicture({
+			quality: 75,
+			targetWidth: 320,
+			targetHeight: 320,
+			saveToPhotoAlbum: false,
+			destinationType: navigator.camera.DestinationType.DATA_URL
+		}).then(function(imageData) {
 
-		// 	});
-		// }, function(err) {
-		// 	alert("erorr" + err);
+			$http({
+				method: "post",
+				url: qimgUrl + "/images",
+				headers: {
+					"Content-type": "application/json",
+					"Authorization": "Bearer " + qimgToken
+				},
+				data: {
+					data: imageData
+				}
+			}).success(function(data) {
+				$scope.newIssue.photo = data.url;
 
-		// 	$scope.error = err;
-		// });
+			});
+		}, function(err) {
+			alert("erorr" + err);
+
+			$scope.error = err;
+		});
 
 	};
 	$scope.goMap = function() {

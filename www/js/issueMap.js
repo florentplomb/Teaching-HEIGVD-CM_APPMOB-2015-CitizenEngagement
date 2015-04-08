@@ -43,7 +43,7 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         });
 
     };
-    $scope.geolocOn = false;
+
 
     $scope.loc = {};
     $scope.events = {};
@@ -60,7 +60,7 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
     $scope.mapDefaults = {
         tileLayer: mapboxTileLayer
     };
-
+     $scope.geolocOn = true;
     $scope.$on('$ionicView.beforeEnter', function() {
         $scope.mapConfig = {};
         $scope.mapConfig.markers = [];
