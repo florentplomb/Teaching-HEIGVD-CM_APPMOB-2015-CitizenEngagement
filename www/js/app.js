@@ -49,7 +49,7 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
     url: '/newIssue',
     views: {
       // The "tab-newIssue" view corresponds to the <ion-nav-view name="tab-newIssue"> directive used in the tabs.html template.
-      'tab-newIssue': {
+      'tab-issueMap': {
         // This defines the template that will be inserted into the directive.
         templateUrl: 'templates/newIssue.html',
         controller: 'NewIssueCtrl'
