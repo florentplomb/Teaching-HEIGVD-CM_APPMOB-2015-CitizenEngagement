@@ -1,5 +1,4 @@
 
-
 #map {
 
 	height: 100%;
@@ -177,6 +176,16 @@ i.actived{
 
     color: red;
 }
+
+h2 {
+	font-family: Helvetica;
+	color: red;
+}
+
+h3 {
+	color: red;
+}
+
 a {
     text-decoration: none;
     font-weight: bold;
