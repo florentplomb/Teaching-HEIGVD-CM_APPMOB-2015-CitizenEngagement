@@ -15,12 +15,12 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         iconAnchor: [14, 40]
     };
     var myMarker = {
-        iconUrl: "../img/green.png",
+        iconUrl: "img/green.png",
         iconSize: [25, 41],
         iconAnchor: [11, 15]
     };
     var markerOrange = {
-        iconUrl: "../img/orange.png",
+        iconUrl: "img/orange.png",
         iconSize: [25, 41],
         iconAnchor: [11, 15]
     };
