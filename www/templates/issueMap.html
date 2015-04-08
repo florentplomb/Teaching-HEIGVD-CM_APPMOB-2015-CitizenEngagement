@@ -1,6 +1,6 @@
 <ion-view view-title="Issue Map" ng-controller="MapController">
 <ion-nav-buttons side="secondary">
-<button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button">Log Out</button>
+<button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button"><i class="icon ion-power"></i></button>
 </ion-nav-buttons>
 <ion-content scroll='false'>
 
@@ -10,8 +10,8 @@
 </div>
 <div id="bouton">
   <div ng-hide="custom"   ng-click="addIssue()" class="buttonMap">
-    <button id="b1map"  class="button button-full button-energized">
-      <i class="ion-plus"> </i> Add issue  <i class="ion-plus"> </i>
+    <button id="b1map"  class="button button-full button-positive">
+      Add an issue  <i class="ion-plus-circled"> </i>
     </button>
   </div>
   <div ng-hide="declenche"  classe="buttonMap">
@@ -26,7 +26,7 @@
   </div>
 </div>
   <div ng-click="location()" id="buttonPos">
-    <button id="locate"  class="ion-android-radio-button-on">
+    <button id="locate"  class="ion-navigate">
     </button>
   </div>
 

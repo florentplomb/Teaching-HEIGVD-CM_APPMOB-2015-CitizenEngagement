@@ -8,7 +8,7 @@
 #buttonPos {
 
 
-     padding: 0;
+    padding-top: 1em;
     position: absolute;
     top: 18%;
     left: 0.9em;
@@ -117,7 +117,7 @@ a.colorred  {
   border: transparent;
 
   margin: 0;
-  color: rgb(255, 0, 232);
+  color: #3281ed;
 }
 
 
