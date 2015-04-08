@@ -26,6 +26,25 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         iconAnchor: [11, 15]
     };
 
+        $scope.location = function() {
+        geolocation.getLocation().then(function(data) {
+            $scope.mapConfig.center.lat = data.coords.latitude;
+            $scope.mapConfig.center.lng = data.coords.longitude;
+            var markertop = {
+                lat: data.coords.latitude,
+                lng: data.coords.longitude,
+                icon: myPosition
+            };
+            $scope.geolocOn = true;
+            $scope.mapConfig.markers.push(markertop);
+        }, function(error) {
+             pop();
+            $log.error("Could not get location: " + error);
+        });
+
+    };
+    $scope.geolocOn = false;
+    $scope.location();
     $scope.loc = {};
     $scope.events = {};
     $scope.mapConfig = {};
@@ -53,19 +72,6 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         $scope.custom = false;
         $scope.declenche = true;
         $scope.validate = true;
-
-
-        geolocation.getLocation().then(function(data) {
-            var markertop = {
-                lat: data.coords.latitude,
-                lng: data.coords.longitude,
-                icon: myPosition
-            };
-            $scope.mapConfig.markers.push(markertop);
-        }, function(error) {
-             pop();
-            $log.error("Could not get location: " + error);
-        });
 
 
         $scope.mapConfig.center = locYverdon
@@ -152,25 +158,7 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
             });
         };
 
-    $scope.location = function() {
 
-
-
-        geolocation.getLocation().then(function(data) {
-            $scope.mapConfig.center.lat = data.coords.latitude;
-            $scope.mapConfig.center.lng = data.coords.longitude;
-            var markertop = {
-                lat: data.coords.latitude,
-                lng: data.coords.longitude,
-                icon: myPosition
-            };
-            $scope.mapConfig.markers.push(markertop);
-        }, function(error) {
-             pop();
-            $log.error("Could not get location: " + error);
-        });
-
-    };
 
     $scope.addIssue = function() {
         $scope.custom = $scope.declenche = false;

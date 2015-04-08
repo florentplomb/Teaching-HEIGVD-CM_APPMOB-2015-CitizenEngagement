@@ -11,8 +11,10 @@
     padding-top: 1em;
     position: absolute;
     top: 18%;
-    left: 0.9em;
+    left: 0.3em;
     width: 0%;
+    font-size: 2em;
+   color: #ED3232;
 
 }
 
@@ -109,6 +111,28 @@ a.colorred  {
 
 }
 
+i.disabled{
+	color: gray;
+   background: transparent;
+  font-size: 2em;
+  padding: 0;
+  border: transparent;
+
+  margin: 0;
+
+}
+
+i.actived{
+	color: blue;
+   background: transparent;
+  font-size: 2em;
+  padding: 0;
+  border: transparent;
+
+  margin: 0;
+
+}
+
 #locate{
 
   background: transparent;
@@ -117,7 +141,7 @@ a.colorred  {
   border: transparent;
 
   margin: 0;
-  color: #3281ed;
+  color: #ED3232;
 }
 
 
@@ -133,28 +157,19 @@ a.colorred  {
 
 }
 
-
 .card.comment {
 	  border-top-color: #418FFA;
 	  border-top-width: 3px;
 	  padding-top: 1.1em;
 	  padding-bottom: 1.1em;
 
-/*
-.comment {
-	border-top-color: #3281ed;
-	border-top-width: 3px;
 
-}*/
 
 .tab-nav {
 
 	background-color: #D8D8D8;
-/*	width:100%;
-	height:50px;
-	position:absolute;
-	bottom:0;
-	left:0;*/
+
+
 
 }
 

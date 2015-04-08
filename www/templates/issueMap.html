@@ -26,8 +26,10 @@
   </div>
 </div>
   <div ng-click="location()" id="buttonPos">
-    <button id="locate"  class="ion-navigate">
-    </button>
+    <i style="font-size:1.2em;"ng-show="geolocOn" class="fa fa-street-view">
+    </i>
+    <i ng-hide="geolocOn" class="fa fa-spinner fa-pulse">
+    </i>
   </div>
 
 </ion-content>
