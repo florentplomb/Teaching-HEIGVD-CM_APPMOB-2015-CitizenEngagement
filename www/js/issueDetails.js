@@ -1,6 +1,6 @@
 var detailApp = angular.module('citizen-engagement.issueDetails', [])
 
-detailApp.controller('DetailCtrl', function($scope, $stateParams, IssueByIdService, IssuePostComment, $state) {
+detailApp.controller('DetailCtrl', function($scope, $stateParams, IssueByIdService, $state) {
 
 	var issueId = $stateParams.issueId;
 
@@ -24,9 +24,9 @@ detailApp.controller('DetailCtrl', function($scope, $stateParams, IssueByIdServi
 
 		};
 
-		IssuePostComment.postComment(callback, issueId, $scope.commentAdd.text);
+		IssueByIdService.postComment(callback, issueId, $scope.commentAdd.text);
 	};
-	$scope.goList= function() {
+	$scope.goList = function() {
 		$state.go("tab.issueList");
 	};
 
@@ -55,12 +55,7 @@ detailApp.factory("IssueByIdService", function($http, apiUrl) {
 			}).error(function(error) {
 				callback(error);
 			});
-		}
-	}
-});
-
-detailApp.factory("IssuePostComment", function($http, apiUrl) {
-	return {
+		},
 		postComment: function(callback, issueId, textComment) {
 
 			$http.post(apiUrl + "/issues/" + issueId + "/actions", {
@@ -76,6 +71,5 @@ detailApp.factory("IssuePostComment", function($http, apiUrl) {
 				callback(error);
 			});
 		}
-
 	}
 });

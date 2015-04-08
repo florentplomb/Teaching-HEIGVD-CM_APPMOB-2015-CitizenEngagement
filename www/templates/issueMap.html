@@ -3,7 +3,6 @@
 <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button"><i class="icon ion-power"></i></button>
 </ion-nav-buttons>
 <ion-content scroll='false'>
-
 <div id="map">
     <leaflet defaults="mapDefaults" center="mapConfig.center" markers="mapConfig.markers" event-broadcast="events" data-tap-disabled="true" height='100%'>
     </leaflet>
@@ -31,6 +30,5 @@
     <i ng-hide="geolocOn" class="fa fa-spinner fa-pulse">
     </i>
   </div>
-
 </ion-content>
 </ion-view>

@@ -3,7 +3,6 @@ var mapApp = angular.module('citizen-engagement.issueMap', ["leaflet-directive",
 
 mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScope, IssueService, $stateParams, leafletData, mapboxMapId, mapboxAccessToken, geolocation, $state) {
 
-
     var locYverdon = {
         lat: 46.7833,
         lng: 6.65,
@@ -26,7 +25,8 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         iconAnchor: [11, 15]
     };
 
-        $scope.location = function() {
+    $scope.location = function() {
+        $scope.geolocOn = false;
         geolocation.getLocation().then(function(data) {
             $scope.mapConfig.center.lat = data.coords.latitude;
             $scope.mapConfig.center.lng = data.coords.longitude;
@@ -38,7 +38,7 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
             $scope.geolocOn = true;
             $scope.mapConfig.markers.push(markertop);
         }, function(error) {
-             pop();
+            pop();
             $log.error("Could not get location: " + error);
         });
 
@@ -60,7 +60,6 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
     $scope.mapDefaults = {
         tileLayer: mapboxTileLayer
     };
-
 
     $scope.$on('$ionicView.beforeEnter', function() {
         $scope.mapConfig = {};
@@ -101,14 +100,9 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
                 })
             }
 
-
             if ($stateParams.issueId) {
-
                 var issueId = $stateParams.issueId;
-
-
-                 function find(array, attr, value) {
-
+                function find(array, attr, value) {
                     for (var i = 0; i < array.length; i++) {
 
                         if (array[i].id === value) {
@@ -118,7 +112,6 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
                     }
 
                 }
-
                 markers = $scope.mapConfig.markers;
                 var markersFocus = find(markers, "id", issueId);
 
@@ -140,25 +133,20 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         });
     };
 
-
-
     $scope.goNew = function() {
 
         $state.transitionTo("tab.newIssue");
     };
 
+    function pop() {
+        var alertPopup = $ionicPopup.alert({
+            title: 'Impossible to get position active your geoloc or try later'
 
-         function pop() {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Impossible to get position active your geoloc or try later'
+        });
+        alertPopup.then(function(res) {
 
-            });
-            alertPopup.then(function(res) {
-
-            });
-        };
-
-
+        });
+    };
 
     $scope.addIssue = function() {
         $scope.custom = $scope.declenche = false;
@@ -184,9 +172,7 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         $rootScope.newmarkers = $scope.mapConfig.markers;
     };
 
-
 });
-
 
 mapApp.factory("IssueService", function($http, apiUrl) {
 
@@ -218,5 +204,3 @@ mapApp.factory("IssueService", function($http, apiUrl) {
     };
 
 });
-
-

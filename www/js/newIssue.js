@@ -6,7 +6,7 @@ newIssueApp.config(function($compileProvider) {
 
 });
 
-newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags, IssueServiceBD,$http, $log, qimgUrl, qimgToken, CameraService) {
+newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags, IssueServiceBD, $http, $log, qimgUrl, qimgToken, CameraService) {
 
 	var markerOrange = {
 		iconUrl: 'img/orange.png',
@@ -67,10 +67,7 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags
 
 	$scope.saveIssue = function() {
 
-
 		var newIssue = $scope.newIssue;
-
-
 		var callback = function(error, issue) {
 			if (error) {
 				$scope.error = error;
@@ -78,12 +75,12 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags
 				var callbacktag = function(error, issuetag) {
 					if (error) {
 						$scope.error = error;
-					}else{
-								console.log("Tag posted");
+					} else {
+						console.log("Tag posted");
 					}
 				}
-						console.log(tags.data);
-				IssueServiceBD.postTag(callbacktag, issue.id,tags.data);
+				console.log(tags.data);
+				IssueServiceBD.postTag(callbacktag, issue.id, tags.data);
 
 			};
 
@@ -92,43 +89,42 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags
 			});
 
 		};
+		IssueServiceBD.post(callback, newIssue);
+	};
 
+	$scope.getPhoto = function() {
 
-	IssueServiceBD.post(callback, newIssue);
-};
+		CameraService.getPicture({
+			quality: 75,
+			targetWidth: 320,
+			targetHeight: 320,
+			saveToPhotoAlbum: false,
+			destinationType: navigator.camera.DestinationType.DATA_URL
+		}).then(function(imageData) {
 
-$scope.getPhoto = function() {
+			$http({
+				method: "post",
+				url: qimgUrl + "/images",
+				headers: {
+					"Content-type": "application/json",
+					"Authorization": "Bearer " + qimgToken
+				},
+				data: {
+					data: imageData
+				}
+			}).success(function(data) {
+				$scope.newIssue.photo = data.url;
+			});
+		}, function(err) {
+			alert("erorr" + err);
 
-	CameraService.getPicture({
-		quality: 75,
-		targetWidth: 320,
-		targetHeight: 320,
-		saveToPhotoAlbum: false,
-		destinationType: navigator.camera.DestinationType.DATA_URL
-	}).then(function(imageData) {
-
-		$http({
-			method: "post",
-			url: qimgUrl + "/images",
-			headers: {
-				"Content-type": "application/json",
-				"Authorization": "Bearer " + qimgToken
-			},
-			data: {
-				data: imageData
-			}
-		}).success(function(data) {
-			$scope.newIssue.photo = data.url;
+			$scope.error = err;
 		});
-	}, function(err) {
-		alert("erorr" + err);
 
-		$scope.error = err;
-	});
-
-}; $scope.goMap = function() {
-	$state.go("tab.issueMap");
-};
+	};
+	$scope.goMap = function() {
+		$state.go("tab.issueMap");
+	};
 });
 
 newIssueApp.controller('TagsController', function($scope, $rootScope, tags, $log) {
@@ -146,12 +142,7 @@ newIssueApp.controller('TagsController', function($scope, $rootScope, tags, $log
 		$scope.newTagName = "";
 
 	}
-
-
-
 });
-
-
 
 newIssueApp.factory("tags", function() {
 	var tags = {};
@@ -163,18 +154,12 @@ newIssueApp.factory("IssueServiceBD", function($http, apiUrl) {
 	return {
 		post: function(callback, newIssue) {
 
-
 			$http.post(apiUrl + "/issues", {
-
-
 				"description": newIssue.desc,
 				"lng": newIssue.lng,
 				"lat": newIssue.lat,
 				"imageUrl": newIssue.photo,
 				"issueTypeId": newIssue.issueTypeId
-
-
-
 			}).success(function(data) {
 				issue = data;
 
@@ -183,7 +168,7 @@ newIssueApp.factory("IssueServiceBD", function($http, apiUrl) {
 				callback(error);
 			});
 		},
-				getIssuesType: function(callback) {
+		getIssuesType: function(callback) {
 			$http.get(apiUrl + "/issueTypes").success(function(data) {
 				issueType = data;
 				callback(null, issueType);
@@ -191,11 +176,11 @@ newIssueApp.factory("IssueServiceBD", function($http, apiUrl) {
 				callback(error);
 			});
 		},
-				postTag: function(callback, issueId, tag) {
+		postTag: function(callback, issueId, tag) {
 
 			$http.post(apiUrl + "/issues/" + issueId + "/actions", {
 				"type": "addTags",
-				"payload":{
+				"payload": {
 					"tags": tag
 				}
 
@@ -211,8 +196,6 @@ newIssueApp.factory("IssueServiceBD", function($http, apiUrl) {
 
 	}
 });
-
-
 
 newIssueApp.factory('CameraService', ['$q', function($q) {
 

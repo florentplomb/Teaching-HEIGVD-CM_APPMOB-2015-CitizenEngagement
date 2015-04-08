@@ -1,30 +1,30 @@
 var list = angular.module('citizen-engagement.issueList', [])
 
 
-list.controller('ListCtrl', function($scope, IssueService, IssueTypeService, $state) {
+list.controller('ListCtrl', function($scope, IssueServiceList,$state) {
 
 	$scope.$on('$ionicView.beforeEnter', function() {
 
 
-			var callback = function(error, issues) {
-		if (error) {
-			$scope.error = error;
-		} else {
-			$scope.issues = issues;
-		}
-	};
+		var callback = function(error, issues) {
+			if (error) {
+				$scope.error = error;
+			} else {
+				$scope.issues = issues;
+			}
+		};
 
-	IssueService.getIssues(callback);
+		IssueServiceList.getIssues(callback);
 
-	IssueTypeService.getIssuesType(function(error, issuesTypes) {
-		if (error) {
-			$scope.error = error;
-		} else {
+		IssueServiceList.getIssuesType(function(error, issuesTypes) {
+			if (error) {
+				$scope.error = error;
+			} else {
 
-			$scope.issueTypes = issuesTypes;
-			$scope.filter.type = issuesTypes[0].id;
-		}
-	});
+				$scope.issueTypes = issuesTypes;
+				$scope.filter.type = issuesTypes[0].id;
+			}
+		});
 
 	});
 
@@ -46,7 +46,7 @@ list.controller('ListCtrl', function($scope, IssueService, IssueTypeService, $st
 	};
 });
 
-list.factory("IssueService", function($http, apiUrl) {
+list.factory("IssueServiceList", function($http, apiUrl) {
 	return {
 		getIssues: function(callback) {
 			$http.get(apiUrl + "/issues").success(function(data) {
@@ -56,12 +56,7 @@ list.factory("IssueService", function($http, apiUrl) {
 			}).error(function(error) {
 				callback(error);
 			});
-		}
-	};
-});
-
-list.factory("IssueTypeService", function($http, apiUrl) {
-	return {
+		},
 		getIssuesType: function(callback) {
 			$http.get(apiUrl + "/issueTypes").success(function(data) {
 				issueType = data;
@@ -70,7 +65,6 @@ list.factory("IssueTypeService", function($http, apiUrl) {
 				callback(error);
 			});
 		}
-
-	}
-
+	};
 });
+
