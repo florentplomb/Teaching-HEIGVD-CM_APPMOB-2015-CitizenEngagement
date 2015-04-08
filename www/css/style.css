@@ -1,10 +1,53 @@
-
-
-.card h3 {
-
-  color:red;
+@font-face {
+  font-family: "roboto";
+  src: url(../fonts/Roboto-Medium.ttf);
 }
 
+@font-face {
+  font-family: "roboto_gras";
+  src: url(..fonts/Roboto-Black.ttf);
+}
+
+@font-face {
+  font-family: "roboto_condensed";
+  src: url(..fonts/Roboto-Condensed.tff);
+}
+
+@font-face {
+  font-family: "roboto_lightItalic";
+  src :url(..fonts/Roboto-LightItalic.ttf);
+}
+
+@font-face {
+  font-family: "roboto_regular";
+  src:url(..fonts/Roboto-Regular);
+}
+@font-face {
+  font-family: "roboto_thin";
+  src:url(..fonts/Roboto-Thin);
+}
+
+.card h3 {
+  font-family: roboto-regular;
+  font-size: 1.2em;
+  color:#3281ed;
+  opacity: 0.8;
+}
+
+.card .tag {
+  font-family: roboto-thin;
+  color:#3281ed;
+
+}
+
+.card .state {
+  font-family: roboto-thin;
+  color:#3281ed;
+}
+
+.card .date {
+  font-family: roboto-lightItalic;
+}
 
 
 #map {
@@ -175,9 +218,8 @@ i.actived{
 
 	background-color: #D8D8D8;
 
-
-
 }
+
 
 #author{
 
