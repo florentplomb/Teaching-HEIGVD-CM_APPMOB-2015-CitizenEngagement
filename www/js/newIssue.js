@@ -6,7 +6,7 @@ newIssueApp.config(function($compileProvider) {
 
 });
 
-newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issue, IssueTypeService, $http, $log, qimgUrl, qimgToken, CameraService) {
+newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags, IssueServiceBD,$http, $log, qimgUrl, qimgToken, CameraService) {
 
 	var markerOrange = {
 		iconUrl: 'img/orange.png',
@@ -19,9 +19,10 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 	$scope.mapConfig.center = {};
 
 	$scope.$on('$ionicView.beforeEnter', function() {
+		tags.data = [];
 		$scope.mapConfig.center = {};
 		$scope.newIssue = {};
-		IssueTypeService.getIssuesType(function(error, issuesTypes) {
+		IssueServiceBD.getIssuesType(function(error, issuesTypes) {
 			if (error) {
 				$scope.error = error;
 			} else {
@@ -66,56 +67,73 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, Issu
 
 	$scope.saveIssue = function() {
 
+
 		var newIssue = $scope.newIssue;
+
+
 		var callback = function(error, issue) {
 			if (error) {
 				$scope.error = error;
 			} else {
+				var callbacktag = function(error, issuetag) {
+					if (error) {
+						$scope.error = error;
+					}else{
+								console.log("Tag posted");
+					}
+				}
+						console.log(tags.data);
+				IssueServiceBD.postTag(callbacktag, issue.id,tags.data);
 
-				$state.go("tab.issueMapId", {
-					issueId: issue.id
-				});
+			};
 
-			}
+			$state.go("tab.issueMapId", {
+				issueId: issue.id
+			});
 
 		};
-		Issue.post(callback, newIssue);
-	};
 
-	$scope.getPhoto = function() {
 
-		CameraService.getPicture({
-			quality: 75,
-			targetWidth: 320,
-			targetHeight: 320,
-			saveToPhotoAlbum: false,
-			destinationType: navigator.camera.DestinationType.DATA_URL
-		}).then(function(imageData) {
+	IssueServiceBD.post(callback, newIssue);
+};
 
-			$http({
-				method: "post",
-				url: qimgUrl + "/images",
-				headers: {
-					"Content-type": "application/json",
-					"Authorization": "Bearer " + qimgToken
-				},
-				data: {
-					data: imageData
-				}
-			}).success(function(data) {
-				$scope.newIssue.photo = data.url;
-			});
-		}, function(err) {
-			alert("erorr" + err);
+$scope.getPhoto = function() {
 
-			$scope.error = err;
+	CameraService.getPicture({
+		quality: 75,
+		targetWidth: 320,
+		targetHeight: 320,
+		saveToPhotoAlbum: false,
+		destinationType: navigator.camera.DestinationType.DATA_URL
+	}).then(function(imageData) {
+
+		$http({
+			method: "post",
+			url: qimgUrl + "/images",
+			headers: {
+				"Content-type": "application/json",
+				"Authorization": "Bearer " + qimgToken
+			},
+			data: {
+				data: imageData
+			}
+		}).success(function(data) {
+			$scope.newIssue.photo = data.url;
 		});
+	}, function(err) {
+		alert("erorr" + err);
 
-	};
+		$scope.error = err;
+	});
+
+}; $scope.goMap = function() {
+	$state.go("tab.issueMap");
+};
 });
 
 newIssueApp.controller('TagsController', function($scope, $rootScope, tags, $log) {
-	$rootScope.tags = tags;
+
+	$scope.tags = tags;
 
 	$scope.deleteTag = function(index) {
 		tags.data.splice(index, 1);
@@ -129,7 +147,10 @@ newIssueApp.controller('TagsController', function($scope, $rootScope, tags, $log
 
 	}
 
+
+
 });
+
 
 
 newIssueApp.factory("tags", function() {
@@ -138,7 +159,7 @@ newIssueApp.factory("tags", function() {
 	return tags;
 });
 
-newIssueApp.factory("Issue", function($http, apiUrl) {
+newIssueApp.factory("IssueServiceBD", function($http, apiUrl) {
 	return {
 		post: function(callback, newIssue) {
 
@@ -161,34 +182,22 @@ newIssueApp.factory("Issue", function($http, apiUrl) {
 			}).error(function(error) {
 				callback(error);
 			});
-		}
-
-	}
-});
-
-
-newIssueApp.factory("IssueTypeService", function($http, apiUrl) {
-	return {
-		getIssuesType: function(callback) {
+		},
+				getIssuesType: function(callback) {
 			$http.get(apiUrl + "/issueTypes").success(function(data) {
 				issueType = data;
 				callback(null, issueType);
 			}).error(function(error) {
 				callback(error);
 			});
-		}
-
-	}
-
-});
-
-newIssueApp.factory("IssueTag", function($http, apiUrl) {
-	return {
-		posttag: function(callback, issueId, tag) {
+		},
+				postTag: function(callback, issueId, tag) {
 
 			$http.post(apiUrl + "/issues/" + issueId + "/actions", {
 				"type": "addTags",
-				"payload": tag
+				"payload":{
+					"tags": tag
+				}
 
 			}).success(function(data) {
 				issue = data;
@@ -198,6 +207,7 @@ newIssueApp.factory("IssueTag", function($http, apiUrl) {
 				callback(error);
 			});
 		}
+
 
 	}
 });

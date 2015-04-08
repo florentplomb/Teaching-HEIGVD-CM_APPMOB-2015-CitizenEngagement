@@ -63,10 +63,13 @@ angular.module('citizen-engagement', ['ionic', 'citizen-engagement.auth', 'citiz
         'tab-issueMap': {
           templateUrl: 'templates/issueMap.html',
           controller: "MapController",
-          //cache: false
         }
+
+
+
       }
     })
+
     .state('tab.issueMapId', {
       url: '/issueMap?issueId&addMarker',
       views: {

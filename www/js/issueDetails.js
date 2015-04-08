@@ -26,6 +26,9 @@ detailApp.controller('DetailCtrl', function($scope, $stateParams, IssueByIdServi
 
 		IssuePostComment.postComment(callback, issueId, $scope.commentAdd.text);
 	};
+	$scope.goList= function() {
+		$state.go("tab.issueList");
+	};
 
 	$scope.custom = true;
 	$scope.toggleCustom = function() {

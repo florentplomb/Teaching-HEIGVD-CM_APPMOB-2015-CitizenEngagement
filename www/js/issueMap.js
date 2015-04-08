@@ -56,7 +56,6 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
 
 
         geolocation.getLocation().then(function(data) {
-            console.log("premierloc");
             var markertop = {
                 lat: data.coords.latitude,
                 lng: data.coords.longitude,
@@ -182,7 +181,6 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
                 $scope.declenche = true;
                 $scope.custom = true;
                 $scope.validate = false;
-                console.log($scope.declenche);
                 var leafEvent = args.leafletEvent;
                 $scope.mapConfig.markers.push({
                     lat: leafEvent.latlng.lat,
@@ -229,8 +227,6 @@ mapApp.factory("IssueService", function($http, apiUrl) {
 
 
         }
-
-
     };
 
 });
