@@ -25,9 +25,9 @@
 <div class="card item item-thumbnail-left topcolor"  ng-click="goToIssueDetails(issue)" ng-repeat="issue in issues | filter:query |orderBy: '-createdOn'" ng-show="issue.issueType.id == filter.type || custom == true"   class="item-thumbnail-left" >
   <img ng-src="{{issue.imageUrl}}">
   <h3>{{issue.description}}</h3>
-  <p> {{issue.state}}</p>
-  <p style="display:inline; font-size: 0.6em;" ng-repeat="tag in issue.tags"> {{tag}}</p>
-  <p style="font-family: italic; font-size:0.7em;"> {{issue.createdOn | date:'shortDate'}}</p>
+  <p class="state"> State of issue : {{issue.state}}</p>
+  <p class="tag" ng-repeat="tag in issue.tags"> Tag : {{tag}}</p>
+  <p class="date"> Date : {{issue.createdOn | date:'shortDate'}}</p>
 </div>
 </ion-content>
 </ion-view>
