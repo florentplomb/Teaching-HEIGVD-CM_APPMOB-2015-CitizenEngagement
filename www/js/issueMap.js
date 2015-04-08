@@ -16,12 +16,12 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         iconAnchor: [14, 40]
     };
     var myMarker = {
-        iconUrl: "img/green.png",
+        iconUrl: "../img/green.png",
         iconSize: [25, 41],
         iconAnchor: [11, 15]
     };
     var markerOrange = {
-        iconUrl: "img/orange.png",
+        iconUrl: "../img/orange.png",
         iconSize: [25, 41],
         iconAnchor: [11, 15]
     };
@@ -102,7 +102,7 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
                 var issueId = $stateParams.issueId;
 
 
-                function find(array, attr, value) {
+                 function find(array, attr, value) {
 
                     for (var i = 0; i < array.length; i++) {
 
@@ -138,9 +138,8 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
 
 
     $scope.goNew = function() {
-        alert("J'aimerais aller sur la page NewIssue");
 
-        $state.go("tab.newIssue");
+        $state.transitionTo("tab.newIssue");
     };
 
 
