@@ -30,8 +30,9 @@
 .card h3 {
   font-family: roboto-regular;
   font-size: 1.2em;
-  color:#3281ed;
+  color:#FF9900;
   opacity: 0.8;
+
 }
 
 .card .tag {
@@ -42,11 +43,12 @@
 
 .card .state {
   font-family: roboto-thin;
-  color:#3281ed;
+  color:#6C6F7A;
 }
 
 .card .date {
   font-family: roboto-lightItalic;
+  font-size: 0.7em;
 }
 
 
