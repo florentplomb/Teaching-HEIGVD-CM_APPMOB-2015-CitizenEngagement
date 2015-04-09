@@ -1,6 +1,6 @@
 <ion-view view-title="Issue Details" ng-controller="DetailCtrl">
  <ion-nav-buttons side="primary">
-<a class="button icon-left ion-chevron-left button-clear" ng-click="goList()" style="font-size:12px">Back to list</a>
+<a class="button icon-left ion-chevron-left button-clear" ng-click="goList()" style="font-size:12px">Back</a>
   </ion-nav-buttons>
  <ion-nav-buttons side="secondary">
     <button type="button" ng-controller="LogoutCtrl" ng-click="logOut()" class="button"><i class="icon ion-power"></i></button>
@@ -9,11 +9,12 @@
             <div class="list card">
                 <div class="item">
                     <h2>{{issue.issueType.name}}</h2>
-                    <p>{{issue.state}}</p>
+                    <p class="state">{{issue.state}}</p>
                 </div>
                 <div class="item item-body">
                     <img class="small-image" src="{{issue.imageUrl}}">
-                  <p>{{issue.description}}</p>
+                  <p class="titledescr">Description of the issue :</p>  
+                  <p class="descr">{{issue.description}}</p>
                   <p>
                     <a href="" ng-class="{colorred: !custom}" class="subdued" ng-click="toggleCustom()">
                       <i class="icon ion-chatbox"></i> {{issue.comments.length}} comments</a>
@@ -29,9 +30,10 @@
                   <button class="send button button-block button-outline button-positive" ng-hide="!commentAdd.text"  ng-click='postComment()'>Send</button>
                 </div>
             <div class="card item topcolor comment" ng-repeat="comment in issue.comments | orderBy: '-postedOn'"  class="item-thumbnail-left" >
-                 <h3>{{comment.author.name}}</h3>
-                 <p>{{comment.text}}</p>
-                 <p>{{comment.postedOn | date:'medium'}}</p>
+                 <p class="text">"{{comment.text}}"</p>
+                 <p class="descr">Written by : {{comment.author.name}}</p>
+                 
+                 <p class="date">{{comment.postedOn | date:'medium'}}</p>
             </div>
             </div>
         </ion-content>

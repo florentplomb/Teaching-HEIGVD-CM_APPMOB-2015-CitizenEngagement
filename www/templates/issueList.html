@@ -26,7 +26,9 @@
   <img ng-src="{{issue.imageUrl}}">
   <h3>{{issue.description}}</h3>
   <p class="state"> State of issue : {{issue.state}}</p>
-  <p class="tag" ng-repeat="tag in issue.tags"> Tag : {{tag}}</p>
+  <ul>
+  Tag : <li class="tag" ng-repeat="tag in issue.tags">  #{{tag}}</li>
+  </ul>
   <p class="date"> Date : {{issue.createdOn | date:'shortDate'}}</p>
 </div>
 </ion-content>

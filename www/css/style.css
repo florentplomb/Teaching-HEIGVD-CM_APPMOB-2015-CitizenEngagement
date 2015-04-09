@@ -27,26 +27,61 @@
   src:url(..fonts/Roboto-Thin);
 }
 
+.card h2 {
+  font-family: roboto, Helvetica, sans-serif;
+  font-size: 1.3em;
+  color:#3281ed;
+  opacity: 0.7;
+
+}
+
+.card .descr{
+  font-family: roboto-regular, Helvetica, sans-serif;
+  color:black;
+  font-weight: 600;
+
+}
+
+.card .text{
+  font-family: roboto, Helvetica,sans-serif;
+  font-size: 1.1em;
+}
+
+.item-body .titledescr {
+  font-family: roboto-regular, Helvetica, sans-serif;
+  color:#3281ed;
+
+}
+.item-body .descr {
+  font-family: roboto-regular, Helvetica, sans-serif;
+  color:black;
+
+}
+
 .card h3 {
-  font-family: roboto-regular;
-  font-size: 1.2em;
+  font-family: roboto-black, Helvetica, sans-serif;
+  font-size: 1.1em;
   color:#3281ed;
   opacity: 0.8;
 }
 
 .card .tag {
-  font-family: roboto-thin;
-  color:#3281ed;
+  display: inline;
+  font-family: roboto-regular, Helvetica, sans-serif;
+  color:black;
+  font-size: 0.9em;
 
 }
 
 .card .state {
-  font-family: roboto-thin;
-  color:#3281ed;
+  font-family: roboto-thin, Helvetica, sans-serif;
+  color:black;
 }
 
 .card .date {
-  font-family: roboto-lightItalic;
+  font-family: roboto-thin, Helvetica, sans-serif;
+  color:black;
+  font-size: 0.8em;
 }
 
 
@@ -226,14 +261,6 @@ i.actived{
     color: red;
 }
 
-h2 {
-	font-family: Helvetica;
-	color: red;
-}
-
-h3 {
-	color: red;
-}
 
 a {
     text-decoration: none;
