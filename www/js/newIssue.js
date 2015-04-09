@@ -94,6 +94,7 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags
 
 	$scope.getPhoto = function() {
 
+
 		CameraService.getPicture({
 			quality: 75,
 			targetWidth: 320,
@@ -114,6 +115,7 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags
 				}
 			}).success(function(data) {
 				$scope.newIssue.photo = data.url;
+
 			});
 		}, function(err) {
 			alert("erorr" + err);

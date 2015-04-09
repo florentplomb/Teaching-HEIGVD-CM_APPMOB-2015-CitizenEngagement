@@ -12,16 +12,23 @@
                     <p class="state">{{issue.state}}</p>
                 </div>
                 <div class="item item-body">
+<<<<<<< HEAD
                     <img class="small-image" src="{{issue.imageUrl}}">
                   <p class="titledescr">Description of the issue :</p>  
                   <p class="descr">{{issue.description}}</p>
+=======
+                    <img class="small-image" width="300px" src="{{issue.imageUrl}}">
+                  <p>{{issue.description}}</p>
+>>>>>>> origin/master
+                  <p>
+                    <a href="" class="subdued">
+                    <i id="author" class="icon ion-person iconsize"></i>  {{issue.owner.name}}</a>
+                  </p>
                   <p>
                     <a href="" ng-class="{colorred: !custom}" class="subdued" ng-click="toggleCustom()">
                       <i class="icon ion-chatbox"></i> {{issue.comments.length}} comments</a>
                     <a href="" class="subdued" ng-click="goToIssueMap()">
                     <i class="icon ion-android-globe iconsize"></i> See on map</a>
-                    <a href="" class="subdued" ng-click="goToIssueMap()">
-                    <i id="author" class="icon ion-person iconsize"></i>  {{issue.owner.name}}</a>
                   </p>
                 </div>
             </div>

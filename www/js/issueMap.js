@@ -43,8 +43,8 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         });
 
     };
-    $scope.geolocOn = false;
-    $scope.location();
+
+
     $scope.loc = {};
     $scope.events = {};
     $scope.mapConfig = {};
@@ -60,11 +60,15 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
     $scope.mapDefaults = {
         tileLayer: mapboxTileLayer
     };
-
+     $scope.geolocOn = true;
     $scope.$on('$ionicView.beforeEnter', function() {
         $scope.mapConfig = {};
         $scope.mapConfig.markers = [];
         $scope.mapConfig.center = locYverdon;
+        if (!$stateParams.issueId){
+            $scope.location();
+        }
+
 
         $scope.mapConfig.markers = [];
         $rootScope.newmarkers = [];

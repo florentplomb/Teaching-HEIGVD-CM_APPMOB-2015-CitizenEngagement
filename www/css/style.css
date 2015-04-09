@@ -59,10 +59,17 @@
 }
 
 .card h3 {
+<<<<<<< HEAD
   font-family: roboto-black, Helvetica, sans-serif;
   font-size: 1.1em;
   color:#3281ed;
+=======
+  font-family: roboto-regular;
+  font-size: 1.2em;
+  color:#FF9900;
+>>>>>>> origin/master
   opacity: 0.8;
+
 }
 
 .card .tag {
@@ -74,6 +81,7 @@
 }
 
 .card .state {
+<<<<<<< HEAD
   font-family: roboto-thin, Helvetica, sans-serif;
   color:black;
 }
@@ -82,6 +90,15 @@
   font-family: roboto-thin, Helvetica, sans-serif;
   color:black;
   font-size: 0.8em;
+=======
+  font-family: roboto-thin;
+  color:#6C6F7A;
+}
+
+.card .date {
+  font-family: roboto-lightItalic;
+  font-size: 0.7em;
+>>>>>>> origin/master
 }
 
 
