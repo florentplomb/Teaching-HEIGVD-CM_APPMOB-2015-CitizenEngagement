@@ -6,7 +6,7 @@ newIssueApp.config(function($compileProvider) {
 
 });
 
-newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags, IssueServiceBD, $http, $log, qimgUrl, qimgToken, CameraService) {
+newIssueApp.controller('NewIssueCtrl', function($scope, $timeout, $rootScope, $state, tags, IssueServiceBD, $http, $log, qimgUrl, qimgToken, CameraService) {
 
 	var markerOrange = {
 		iconUrl: 'img/orange.png',
@@ -22,6 +22,10 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags
 		tags.data = [];
 		$scope.mapConfig.center = {};
 		$scope.newIssue = {};
+		$timeout(function() {
+			$scope.$broadcast('invalidateSize');
+
+		});
 		IssueServiceBD.getIssuesType(function(error, issuesTypes) {
 			if (error) {
 				$scope.error = error;
@@ -93,7 +97,6 @@ newIssueApp.controller('NewIssueCtrl', function($scope, $rootScope, $state, tags
 	};
 
 	$scope.getPhoto = function() {
-
 
 		CameraService.getPicture({
 			quality: 75,

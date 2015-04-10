@@ -1,7 +1,7 @@
 var mapApp = angular.module('citizen-engagement.issueMap', ["leaflet-directive", 'ionic', 'geolocation'])
 
 
-mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScope, IssueService, $stateParams, leafletData, mapboxMapId, mapboxAccessToken, geolocation, $state) {
+mapApp.controller("MapController", function($log, $scope,$timeout,$ionicPopup, $rootScope, IssueService, $stateParams, leafletData, mapboxMapId, mapboxAccessToken, geolocation, $state) {
 
     var locYverdon = {
         lat: 46.7833,
@@ -17,7 +17,7 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
     var myMarker = {
         iconUrl: "img/green.png",
         iconSize: [25, 41],
-        iconAnchor: [11, 15]
+        iconAnchor: [30, 15]
     };
     var markerOrange = {
         iconUrl: "img/orange.png",
@@ -30,6 +30,8 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         geolocation.getLocation().then(function(data) {
             $scope.mapConfig.center.lat = data.coords.latitude;
             $scope.mapConfig.center.lng = data.coords.longitude;
+            $scope.mapConfig.center.zoom = 17;
+
             var markertop = {
                 lat: data.coords.latitude,
                 lng: data.coords.longitude,
@@ -65,6 +67,11 @@ mapApp.controller("MapController", function($log, $scope, $ionicPopup, $rootScop
         $scope.mapConfig = {};
         $scope.mapConfig.markers = [];
         $scope.mapConfig.center = locYverdon;
+
+        $timeout(function(){
+            $scope.$broadcast('invalidateSize');
+
+        });
         if (!$stateParams.issueId){
             $scope.location();
         }

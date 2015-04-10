@@ -1,0 +1,8 @@
+{
+
+  "apiUrl": "http://localhost:8100/api-proxy",
+   "mapboxMapId": "cleliapanchaud.kajpf86n",
+  "mapboxAccessToken": "pk.eyJ1IjoiY2xlbGlhcGFuY2hhdWQiLCJhIjoiM2hMOEVXYyJ9.olp7FrLzmzSadE07IY8OMQ",
+  "qimgUrl":"http://localhost:8100/qimg-proxy",
+  "qimgToken":"epAxnplQv0t1QtENr5NSQIyCZ+n3csjqh5z3TgCFhK3nYY//MPPB6pwbpUdQv6eNjAWxGDtx3DAgIC/UG/ZwA520fD0roWe5IOABEH5YbV4UB4B0Zxmv7bkAdG/w7HH3MGfbdEUHkLtKIuQxVyMLBJvw6lZEvoNTd+ipMZYp/Mo="
+}
