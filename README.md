@@ -14,6 +14,13 @@ Réaliser dans le cadre d'un cours à la HEIG-VD.
 
 https://github.com/florentplomb/Teaching-HEIGVD-CM_APPMOB-2015-CitizenEngagement
 
+*Mode d'emploi*
+
+http://pacific-sands-7883.herokuapp.com/blog/
+
+*Vidéo de présentation*
+https://www.youtube.com/watch?v=wki0t178x2k&feature=youtu.be
+
 **Back-end**
 
 *Lien de la documentation Back-end utilisé:*
