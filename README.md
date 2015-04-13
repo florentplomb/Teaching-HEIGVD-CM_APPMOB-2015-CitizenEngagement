@@ -4,7 +4,7 @@
 
 *Auteur :* Clélia Panchaud & Florent Plomb
 
-*But :* Gérer les incident dans une ville
+*But :* Gérer les incidents dans une ville
 
 Réaliser dans le cadre d'un cours à la HEIG-VD.
 
